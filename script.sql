@@ -42,7 +42,7 @@ CREATE TABLE save (
 
 CREATE TABLE salle (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    type BOOL,
+    type BOOLEAN,
     event INT,
     expSalle INT,
     monstre_id INT,
@@ -51,8 +51,9 @@ CREATE TABLE salle (
 
 CREATE TABLE objet (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    type BOOL,
-    malediction BOOL,
+    nom VARCHAR(80),
+    type BOOLEAN,
+    malediction BOOLEAN,
     value INT
 );
 

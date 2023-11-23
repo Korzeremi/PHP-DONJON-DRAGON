@@ -3,7 +3,7 @@ try {
     $hote = "localhost";
     $port = "3307";
     $utilisateur = "root";
-    $motDePasse = "";
+    $motDePasse = "raph";
     $nomDeLaBase = "ded";
     $connexion = new PDO("mysql:host=$hote;port=$port;dbname=$nomDeLaBase", $utilisateur, $motDePasse);
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
