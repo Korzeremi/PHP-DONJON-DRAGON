@@ -6,6 +6,16 @@ CREATE TABLE inventaire (
     nom VARCHAR(55),
     type INT,
     value INT
+    obj1 INT,
+    obj2 INT,
+    obj3 INT,
+    obj4 INT,
+    obj5 INT,
+    obj6 INT,
+    obj7 INT,
+    obj8 INT,
+    obj9 INT,
+    obj10 INT
 );
 
 CREATE TABLE personnage (

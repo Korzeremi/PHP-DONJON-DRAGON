@@ -125,7 +125,14 @@ class DAO {
 
     public function selectParty() {}
 
-    public function showCurrentCharaInventory () {}
+    public function showCurrentCharaInventory () {
+        try {
+            $row = ""
+        } catch (PDOException $e) {
+            echo "Erreur pour l'inventaire: " . $e->getMessage();
+            return false;
+        }
+    }
 }
 
 $DAO = new DAO($bdd);
