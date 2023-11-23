@@ -232,8 +232,8 @@ class Inventaire {
     public function setObj9($obj9) {
         $this->obj9 = $obj9;
     }
+
     public function set10($obj10) {
-    
         $this->obj10 = $obj10;
     }
 }
@@ -507,8 +507,8 @@ class DAO {
 
     public function updateInventaire($id) {
         try {
-            $row = $this->bdd_>prepare("UPDATE inventaire SET nom = ?, type = ?, value = ?, obj1 = ?, obj2 = ?, obj3 = ?, obj4 = ?, obj5 = ?, obj6 = ?, obj7 = ?, obj8 = ?, obj9 = ?, obj10 = ?");
-            $row->execute();
+            $row = $this->bdd_>prepare("UPDATE inventaire SET obj1 = ?, obj2 = ?, obj3 = ?, obj4 = ?, obj5 = ?, obj6 = ?, obj7 = ?, obj8 = ?, obj9 = ?, obj10 = ? WHERE id = ?");
+            $row->execute($inventaires->getObj1(),$inventaires->getObj2(),$inventaires->getObj3(),$inventaires->getObj4(),$inventaires->getObj5(),$inventaires->getObj6(),$inventaires->getObj7(),$inventaires->getObj8(),$inventaires->getObj9(),$inventaires->getObj10(),[$id]);
         } catch (PDOException $e) {
             echo "Erreur lors de la modification de l'inventaire " . $e->getMessage();
         }
@@ -532,6 +532,8 @@ $butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
 
 $salle_special = new Salle_speciale(1, 0, 3, 4);
 // print_r($salle_special);
+
+$inventaires = new Inventaire();
 
 $a = 0;
 
