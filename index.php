@@ -1,5 +1,7 @@
 <?php
 
+include 'config.php';
+
 class Personnage {
     private $nom;
     private $PV;
@@ -140,6 +142,47 @@ class Butin {
     }
 }
 
+class DAO {
+    private $bdd;
+    public function __construct($bdd) {
+        $this->bdd = $bdd;
+    }
+
+    public function createNewPerso() {
+        try {
+            $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)");
+            $row->execute([
+                $personnage->getNom(),
+                $personnage->getPv(),
+                $personnage->getPa(),
+                $personnage->getPd(),
+                $personnage->getPds(),
+                $personnage->getExp(),
+                $personnage->getNiveau(),
+                $personnage->getEvolution(),
+                $personnage->getInventaire_id()            
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'ajout du joueur: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function selectParty() {}
+
+    public function showCurrentCharaInventory () {
+        try {
+            $row = ""
+        } catch (PDOException $e) {
+            echo "Erreur pour l'inventaire: " . $e->getMessage();
+            return false;
+        }
+    }
+}
+
+$DAO = new DAO($bdd);
+
 $personnage = new Personnage("Raph", 200, 50, 40, 125);
 print_r($personnage);
 $salle = new Salle(2);
@@ -152,14 +195,4 @@ print_r($butin);
 
 $salle_special = new Salle_speciale("piege");
 print_r($salle_special);
-
-$salle->getMonstre();
-$monstreNormal = new monstre("Orc", 50, 20, 10);
-
-//$salle_special = new Salle_speciale("piege", $monstreNormal);
-$monstreDansSalleSpeciale = $salle_special->getMonstre(); 
-
-if ($monstreDansSalleSpeciale !== null) {
-    $personnage->affronterMonstre($monstreDansSalleSpeciale);
-}
 ?>
