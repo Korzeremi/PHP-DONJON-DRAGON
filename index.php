@@ -1,35 +1,46 @@
 <?php
-class personage {
+
+class Personnage {
     private $PV;
     private $PA;
     private $PD;
+    private $XP;
+    private $niveau;
 
-        public function __construct($PV, $PA, $PD){
-            $this-> PV = $PV;
-            $this-> PA = $PA;
-            $this-> PD = $PD; 
-        }
+    public function __construct($PV, $PD, $PA, $XP) {
+        $this->PV = $PV;
+        $this->PA = $PA;
+        $this->PD = $PD;
+        $this->XP = $XP;
+        $this->niveau = 1;
+    }
 
-        public function getPV() {
-            return $this ->PV;
-        }
+    public function evoluer() {
+        $this->PA += 5;
+        $this->PD += 3;
+        $this->niveau++;
+        $this->XP = 0;
+    }
 
-        public function getPA() {
-            return $this ->PA;
-        }
+    public function getPV() {
+        return $this->PV;
+    }
 
-        public function getPD() {
-            return $this ->PD;
-        }
+    public function getPA() {
+        return $this->PA;
+    }
 
+    public function getPD() {
+        return $this->PD;
+    }
+
+    public function getXP() {
+        return $this->XP;
+    }
+
+    public function getNiveau() {
+        return $this->niveau;
+    }
 }
-
-
-
-
-
-
-
-
 
 ?>
