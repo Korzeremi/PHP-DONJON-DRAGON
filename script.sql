@@ -5,7 +5,7 @@ CREATE TABLE inventaire (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(55),
     type INT,
-    value INT
+    value INT,
     obj1 INT,
     obj2 INT,
     obj3 INT,
