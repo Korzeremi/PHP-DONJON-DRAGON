@@ -52,6 +52,7 @@ CREATE TABLE salle (
 CREATE TABLE objet (
     id INT AUTO_INCREMENT PRIMARY KEY,
     type BOOL,
+    nom VARCHAR(55),
     malediction BOOL,
     value INT
 );

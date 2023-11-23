@@ -104,7 +104,18 @@ class DAO {
 
     public function createNewPerso() {
         try {
-            $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)")
+            $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)");
+            $row->execute([
+                $perso->getNom(),
+                $perso->getPv(),
+                $perso->getPa(),
+                $perso->getPd(),
+                $perso->getPds(),
+                $perso->getExp(),
+                $perso->getNiveau(),
+                $perso->getEvolution(),
+                $perso->getInventaire_id()            
+            ])
         }
     }
 
