@@ -1,20 +1,27 @@
 <?php
 
 class Personnage {
+    private $nom;
     private $PV;
     private $PA;
     private $PD;
     private $XP;
     private $niveau;
+    private $evolution;
+    private $inventaire;
 
-    public function __construct($PV, $PD, $PA, $XP) {
+    public function __construct($nom, $PV, $PD, $PA, $XP) {
+        $this->nom = $nom;
         $this->PV = $PV;
         $this->PA = $PA;
         $this->PD = $PD;
         $this->XP = $XP;
         $this->niveau = 1;
+        $this->evolution = array();
+        $this->inventaire = array();
     }
 
+    // BONNE IDEE , METTRE DES SETS A LA PLACE DES THIS, ET PAS METTRE L'XP A 0 MAIS XP TOTAL - XP DU NIVEAU D'AVANT
     public function evoluer() {
         $this->PA += 5;
         $this->PD += 3;
@@ -84,6 +91,9 @@ class Butin {
         return $this->butin_special;
     }
 }
+
+$personnage = new Personnage("Raph", 200, 50, 40, 125);
+print_r($personnage);
 
 $salle = new Salle(2);
 print_r($salle);

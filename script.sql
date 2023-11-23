@@ -11,8 +11,8 @@ CREATE TABLE inventaire (
 CREATE TABLE personnage (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50),
-    pa INT,
     pv INT,
+    pa INT,
     pd INT,
     exp INT,
     niveau INT,
