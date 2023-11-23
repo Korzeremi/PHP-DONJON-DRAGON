@@ -15,6 +15,7 @@ class Personnage {
         $this->niveau = 1;
     }
 
+    // BONNE IDEE , METTRE DES SETS A LA PLACE DES THIS, ET PAS METTRE L'XP A 0 MAIS XP TOTAL - XP DU NIVEAU D'AVANT
     public function evoluer() {
         $this->PA += 5;
         $this->PD += 3;
