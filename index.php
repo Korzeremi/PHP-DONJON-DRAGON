@@ -9,6 +9,7 @@ class Personnage {
     private $niveau;
     private $evolution;
     private $inventaire;
+    private $arme; 
 
     public function __construct($nom, $PV, $PD, $PA, $XP) {
         $this->nom = $nom;
@@ -48,7 +49,8 @@ class Personnage {
     public function getNiveau() {
         return $this->niveau;
     }
-}
+
+}   
 
 class Salle {
     private $event;
@@ -94,7 +96,6 @@ class Butin {
 
 $personnage = new Personnage("Raph", 200, 50, 40, 125);
 print_r($personnage);
-
 $salle = new Salle(2);
 print_r($salle);
 
