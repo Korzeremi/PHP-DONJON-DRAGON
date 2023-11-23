@@ -5,7 +5,17 @@ CREATE TABLE inventaire (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(55),
     type INT,
-    value INT
+    value INT,
+    obj1 INT,
+    obj2 INT,
+    obj3 INT,
+    obj4 INT,
+    obj5 INT,
+    obj6 INT,
+    obj7 INT,
+    obj8 INT,
+    obj9 INT,
+    obj10 INT
 );
 
 CREATE TABLE personnage (
@@ -32,7 +42,7 @@ CREATE TABLE monstre (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(55),
     pd INT,
-    pds INT,
+    pa INT,
     pv INT
 );
 
@@ -51,9 +61,15 @@ CREATE TABLE salle (
 
 CREATE TABLE objet (
     id INT AUTO_INCREMENT PRIMARY KEY,
+<<<<<<< HEAD
     nom VARCHAR(80),
     type BOOLEAN,
     malediction BOOLEAN,
+=======
+    type BOOL,
+    nom VARCHAR(55),
+    malediction BOOL,
+>>>>>>> 9bffecfb62d37f7c7f89c60053d64531071d5ba2
     value INT
 );
 

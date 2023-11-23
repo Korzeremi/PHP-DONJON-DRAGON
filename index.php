@@ -157,6 +157,26 @@ class DAO {
             return true;
         } catch (PDOException $e) {
             echo "Erreur d'ajout du objet: " . $e->getMessage();
+        }
+    }
+
+    public function createNewPerso($personnage) {
+        try {
+            $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)");
+            $row->execute([
+                $personnage->getNom(),
+                $personnage->getPv(),
+                $personnage->getPa(),
+                $personnage->getPd(),
+                $personnage->getPds(),
+                $personnage->getExp(),
+                $personnage->getNiveau(),
+                $personnage->getEvolution(),
+                $personnage->getInventaire_id()            
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'ajout du joueur: " . $e->getMessage();
             return false;
         }
     }
@@ -169,6 +189,16 @@ class DAO {
             return true;
         } catch (PDOException $e) {
             echo "Erreur d'ajout du objet: " . $e->getMessage();
+        }
+    }
+
+    public function selectParty() {}
+
+    public function showCurrentCharaInventory () {
+        try {
+            $row = "";
+        } catch (PDOException $e) {
+            echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
         }
     }
