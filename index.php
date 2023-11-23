@@ -236,10 +236,22 @@ class DAO {
 
     public function selectParty() {}
 
-    public function showCurrentCharaInventory () {
+    public function getPerso() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM personnage");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des personnages " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getInventory () {
         try {
             $row = $this->bdd->prepare("SELECT * FROM inventaire");
             $row->execute();
+            return true;
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
@@ -279,10 +291,76 @@ class DAO {
             $userSelection = readline(">");
             $row2 = $this->bdd->prepare("SELECT * FROM save WHERE id = ?", [$userSelection]);
             $row2->execute();
-            return true;
             $row = "";
+            return true;
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getSalle() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM salle");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des salles " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getPerso() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM personnage");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des personnages " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getMonstre() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM monstre");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des monstres " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getPiege() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM piege");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des pièges " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getAttaque() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM attaque");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des attaques " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getEnigma() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM enigma");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des énigmes " . $e->getMessage();
             return false;
         }
     }
