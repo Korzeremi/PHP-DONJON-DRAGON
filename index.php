@@ -20,7 +20,6 @@ class Personnage {
         $this->niveau = 1;
         $this->evolution = array();
         $this->inventaire = array();
-        $this->arme = "Epée";
     }
 
     // BONNE IDEE , METTRE DES SETS A LA PLACE DES THIS, ET PAS METTRE L'XP A 0 MAIS XP TOTAL - XP DU NIVEAU D'AVANT
@@ -51,14 +50,6 @@ class Personnage {
         return $this->niveau;
     }
 
-    public function getArme() {
-        return $this->arme; 
-    }
-
-    private function changerArme($nouvelleArme) {
-        $this->arme = $nouvelleArme;
-        echo "Nouvelle arme équipée : " . $nouvelleArme . "<br>";
-    }
 }   
 
 class Salle {
@@ -105,9 +96,6 @@ class Butin {
 
 $personnage = new Personnage("Raph", 200, 50, 40, 125);
 print_r($personnage);
-$monPersonnage->evoluer();
-echo "Arme actuelle : " . $monPersonnage->getArme() . "<br>";
-
 $salle = new Salle(2);
 print_r($salle);
 
