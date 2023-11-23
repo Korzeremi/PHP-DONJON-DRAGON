@@ -11,7 +11,6 @@ class Personnage {
     private $niveau;
     private $evolution;
     private $inventaire;
-    private $arme; 
 
     public function __construct($nom, $PV, $PD, $PA, $XP) {
         $this->nom = $nom;
@@ -32,6 +31,9 @@ class Personnage {
         $this->XP = 0;
     }
 
+    public function getNom() {
+        return $this->nom;
+    }
     public function getPV() {
         return $this->PV;
     }
@@ -48,11 +50,50 @@ class Personnage {
         return $this->XP;
     }
 
+    public function getEvolution() {
+        return $this->evolution;
+    }
+    public function getInventaire() {
+        return $this->inventaire;
+    }
     public function getNiveau() {
         return $this->niveau;
     }
+    public function affronterMonstre($monstre) {
+        echo $this->nom . " affrontez le monstre " . $monstre->getNom() . " !<br>";
+    }
 
 }   
+
+class Monstre {
+    private $nom;
+    private $PV;
+    private $PA;
+    private $PD;
+
+    public function __construct($nom, $PV, $PA, $PD) {
+        $this->nom = $nom;
+        $this->PV = $PV;
+        $this->PA = $PA;
+        $this->PD = $PD;
+    }
+
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getPV() {
+        return $this->PV;
+    }
+
+    public function getPA() {
+        return $this->PA;
+    }
+
+    public function getPD() {
+        return $this->PD;
+    }
+}
 
 class Salle {
     private $type;
@@ -74,13 +115,14 @@ class Salle {
         return $this->event;
     }
     
-        public function getExperience() {
-            return $this->experience;
-        }
+    public function getExperience() {
+        return $this->experience;
+    }
 
     public function getMonstre() {
         return $this->monstre;
     }
+
 }
 
 class Salle_speciale extends Salle {
