@@ -254,6 +254,7 @@ class DAO {
             while ($rowItem = $row->fetch(PDO::FETCH_ASSOC)) {
                 $tempBut[] = $rowItem;
             }
+            
             $butin->setButinClassique($tempBut);
             $row2 = $this->bdd->prepare("SELECT * FROM objet WHERE type = 1");
             $row2->execute();
