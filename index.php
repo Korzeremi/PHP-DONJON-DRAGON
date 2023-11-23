@@ -1,5 +1,7 @@
 <?php
 
+include 'config.php';
+
 class Personnage {
     private $nom;
     private $PV;
@@ -92,6 +94,15 @@ class Butin {
     }
 }
 
+class DAO {
+    private $bdd;
+    public function __construct($bdd) {
+        $this->bdd = $bdd;
+    }
+}
+
+$DAO = new DAO($bdd);
+
 $personnage = new Personnage("Raph", 200, 50, 40, 125);
 print_r($personnage);
 
@@ -105,4 +116,30 @@ print_r($butin);
 
 $salle_special = new Salle_speciale("piege");
 print_r($salle_special);
+
+$a = 0;
+
+while ($a === 0) {
+    echo "Bienvenue dans Donjon & Dragon !\n\n";
+    sleep(1);
+    echo "Que souhaites-tu faire ?\n1 - Jouer\n2 - Voir l'inventaire\n3 - Voir les personnages\n4 - Créer un personnage\n5 - Récuperer une sauvegarde\n6 - Quitter\n";
+    $choice = readline("> ");
+    switch ($choice) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5;
+            break;
+        case 6:
+            break;
+        default:
+            echo "Choix impossible !\n";
+            break;
+    }
+}
 ?>
