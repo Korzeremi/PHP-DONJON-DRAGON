@@ -195,13 +195,48 @@ class DAO {
     {
         try {
             $requete = $this->bdd->prepare("INSERT INTO objet (nom, type, malediction, value) VALUES (?, ?, ?, ?)");
-            $requete->execute([$objet->getNom(), $objet->getType(), $objet->getMalediction(), $objet->getValue()]);
+            $requete->execute([$objet->getNom(), 
+                               $objet->getType(), 
+                               $objet->getMalediction(), 
+                               $objet->getValue()
+                            ]);
             return true;
         } catch (PDOException $e) {
             echo "Erreur d'ajout du objet: " . $e->getMessage();
         }
     }
     
+    public function addSalle($salle)
+    {
+        try {
+            $requete = $this->bdd->prepare("INSERT INTO salle (type, event, expSalle, monstre_id) VALUES (?, ?, ?, ?)");
+            $requete->execute([$salle->getType(),
+                               $salle->getEvent(), 
+                               $salle->getExperience(), 
+                               $salle->getMonstre()
+                            ]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur d'ajout de la salle: " . $e->getMessage();
+        }
+    }
+
+    public function addMonstre($monstre)
+    {
+        try {
+            $requete = $this->bdd->prepare("INSERT INTO monstre (nom, pd, pa, pv) VALUES (?, ?, ?, ?)");
+            $requete->execute([$monstre->getNom(), 
+                               $monstre->getPD(), 
+                               $monstre->getPA(), 
+                               $monstre->getPV()
+                            ]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur d'ajout du monstre: " . $e->getMessage();
+        }
+    }
+
+
     public function createNewPerso($personnage) {
         try {
             $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)");
@@ -223,16 +258,6 @@ class DAO {
         }
     }
 
-    public function addSalle($salle)
-    {
-        try {
-            $requete = $this->bdd->prepare("INSERT INTO salle (type, event, expSalle, monstre_id) VALUES (?, ?, ?, ?)");
-            $requete->execute([$salle->getType(), $salle->getEvent(), $salle->getExperience(), $salle->getMonstre()]);
-            return true;
-        } catch (PDOException $e) {
-            echo "Erreur d'ajout du objet: " . $e->getMessage();
-        }
-    }
 
     public function selectParty() {}
 
@@ -247,14 +272,18 @@ class DAO {
 }
 
 $DAO = new DAO($connexion);
-$objet = new Objet("epee", 1, 0, 10);
+// $objet = new Objet("epee", 1, 0, 10);
 // $DAO->addObject($objet);
 
-$personnage = new Personnage("Raph", 200, 50, 40, 125);
+// $personnage = new Personnage("Raph", 200, 50, 40, 125);
 // print_r($personnage);
-$salle = new Salle(0, 0, 1, 2);
-$DAO->addSalle($salle);
+
+// $salle = new Salle(0, 0, 1, 1);
+// $DAO->addSalle($salle);
 // print_r($salle);
+
+// $monstre = new Monstre("Mechant 2", 50, 40, 180);
+// $DAO->addMonstre($monstre);
 
 $butin = new Butin();
 $butin->setButinClassique(["epee", "gants", "casque"]);
@@ -273,7 +302,7 @@ while ($a === 0) {
     $choice = readline("> ");
     switch ($choice) {
         case 1:
-
+            
             break;
         case 2:
             break;
@@ -281,7 +310,7 @@ while ($a === 0) {
             break;
         case 4:
             break;
-        case 5;
+        case 5:
             break;
         case 6:
             $a = 1;
