@@ -32,7 +32,7 @@ CREATE TABLE monstre (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(55),
     pd INT,
-    pds INT,
+    pa INT,
     pv INT
 );
 

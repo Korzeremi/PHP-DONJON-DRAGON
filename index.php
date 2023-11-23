@@ -101,6 +101,16 @@ class DAO {
     public function __construct($bdd) {
         $this->bdd = $bdd;
     }
+
+    public function createNewPerso() {
+        try {
+            $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)")
+        }
+    }
+
+    public function selectParty() {}
+
+    public function showCurrentCharaInventory () {}
 }
 
 $DAO = new DAO($bdd);
