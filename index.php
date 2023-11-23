@@ -131,6 +131,113 @@ class Salle_speciale extends Salle {
     }
 }
 
+class Inventaire {
+    private $obj1;
+    private $obj2;
+    private $obj3;
+    private $obj4;
+    private $obj5;
+    private $obj6;
+    private $obj7;
+    private $obj8;
+    private $obj9;
+    private $obj10;
+
+    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10) {
+        $this->obj1 = $obj1;
+        $this->obj2 = $obj2;
+        $this->obj3 = $obj3;
+        $this->obj4 = $obj4;
+        $this->obj5 = $obj5;
+        $this->obj6 = $obj6;
+        $this->obj7 = $obj7;
+        $this->obj8 = $obj8;
+        $this->obj9 = $obj9;
+        $this->obj10 = $obj10;
+    }
+
+    public function getObj1() {
+        return $this->obj1;
+    }
+
+    public function getObj2() {
+        return $this->obj2;
+    }
+    
+    public function getObj3() {
+        return $this->obj3;
+    }
+    
+    public function getObj4() {
+        return $this->obj4;
+    }
+    
+    public function getObj5() {
+        return $this->obj5;
+    }
+    
+    public function getObj6() {
+    
+        return $this->obj6;
+    }
+    
+    public function getObj7() {
+        return $this->obj7;
+    }
+    
+    public function getObj8() {
+        return $this->obj8;
+    }
+    
+    public function getObj9() {
+        return $this->obj9;
+    }
+    
+    public function getObj10() {
+        return $this->obj10;
+    }
+    
+    public function setObj1($obj1) {
+        $this->obj1 = $obj1;
+    }
+    
+    public function setObj2($obj2) {
+        $this->obj2 = $obj2;
+    }
+    
+    public function setObj3($obj3) {
+        $this->obj3 = $obj3;
+    }
+    
+    public function setObj4($obj4) {
+        $this->obj4 = $obj4;
+    }
+    public function setObj5($obj5) {
+    
+        $this->obj5 = $obj5;
+    }
+    
+    public function setObj6($obj6) {
+        $this->obj6 = $obj6;
+    }
+    
+    public function setObj7($obj7) {
+        $this->obj7 = $obj7;
+    }
+    
+    public function setObj8($obj8) {
+        $this->obj8 = $obj8;
+    }
+    
+    public function setObj9($obj9) {
+        $this->obj9 = $obj9;
+    }
+
+    public function set10($obj10) {
+        $this->obj10 = $obj10;
+    }
+}
+
 class Butin {
     private $butin_classique;
     private $butin_special;
@@ -290,6 +397,7 @@ class DAO {
             while ($rowItem = $row->fetch(PDO::FETCH_ASSOC)) {
                 $tempBut[] = $rowItem;
             }
+            
             $butin->setButinClassique($tempBut);
             $row2 = $this->bdd->prepare("SELECT * FROM objet WHERE type = 1");
             $row2->execute();
@@ -382,6 +490,48 @@ class DAO {
             return [];
         }
     }
+
+    public function updatePerso($id) {
+        try {
+            $row = $this->bdd->prepare("UPDATE perso SET nom = ?, pv = ?, pa = ?, pd = ?, exp = ?, niveau = ?, evolution = ? WHERE id = ?");
+            $row->execute($personnage->getNom(),$personnage->getPV(),$personnage->getPA(),$personnage->getPD(),$personnage->getExperience(),$personnage->getNiveau(),$personnage->getEvolution(),[$id]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la modification du personnage " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function updateSalle($id) {
+        try {
+            $row = $this->bdd->prepare("UPDATE salle SET type = ?, event = ?, expSalle = ?, monstre_id = ? WHERE id = ?");
+            $row->execute($salle->getType(), $salle->getEvent(), $salle->getExperience(), $salle->getMonstre(), [$id]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la modification de la salle " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function updateMonstre($id) {
+        try {
+            $row = $this->bdd->prepare("UPDATE monstre SET nom = ?, pd = ?, pa = ?, pv = ? WHERE id = ?");
+            $row->execute($monstre->getNom(),$monstre->getPD(),$monstre->getPA(),$monstre->getPV(),[$id]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la modification du monstre " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function updateInventaire($id) {
+        try {
+            $row = $this->bdd_>prepare("UPDATE inventaire SET obj1 = ?, obj2 = ?, obj3 = ?, obj4 = ?, obj5 = ?, obj6 = ?, obj7 = ?, obj8 = ?, obj9 = ?, obj10 = ? WHERE id = ?");
+            $row->execute($inventaires->getObj1(),$inventaires->getObj2(),$inventaires->getObj3(),$inventaires->getObj4(),$inventaires->getObj5(),$inventaires->getObj6(),$inventaires->getObj7(),$inventaires->getObj8(),$inventaires->getObj9(),$inventaires->getObj10(),[$id]);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la modification de l'inventaire " . $e->getMessage();
+        }
+    }
 }
 
 $DAO = new DAO($connexion);
@@ -413,6 +563,8 @@ $butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
 
 $salle_special = new Salle_speciale(1, 0, 3, 4);
 // print_r($salle_special);
+
+$inventaires = new Inventaire();
 
 $a = 0;
 $main_char = "";
