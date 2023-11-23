@@ -127,7 +127,47 @@ class DAO {
 
     public function showCurrentCharaInventory () {
         try {
-            $row = ""
+            $row = $this->bdd->prepare("SELECT * FROM inventaire");
+            $row->execute();
+        } catch (PDOException $e) {
+            echo "Erreur pour l'inventaire: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getObjet() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM objet WHERE type = 0");
+            $row->execute();
+            $tempBut = array(); 
+            while ($rowItem = $row->fetch(PDO::FETCH_ASSOC)) {
+                $tempBut[] = $rowItem;
+            }
+            $butin->setButinClassique($tempBut);
+            $row2 = $this->bdd->prepare("SELECT * FROM objet WHERE type = 1");
+            $row2->execute();
+            $tempBut2 = array(); 
+            while ($rowItem2 = $row->fetch(PDO::FETCH_ASSOC)) {
+                $tempBut2[] = $rowItem2;
+            }
+            $butin->setButinSpecial($tempBut2);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur pour l'inventaire: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+
+    public function getSave() {
+        try {
+            echo "Voici les sauvegardes > ";
+            $row = $this->bdd->prepare("SELECT * FROM save");
+            $row->execute();
+            $userSelection = readline(">");
+            $row2 = $this->bdd->prepare("SELECT * FROM save WHERE id = ?", [$userSelection]);
+            $row2->execute();
+            return true;
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
