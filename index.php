@@ -9,7 +9,6 @@ class Personnage {
     private $niveau;
     private $evolution;
     private $inventaire;
-    private $arme; 
 
     public function __construct($nom, $PV, $PD, $PA, $XP) {
         $this->nom = $nom;
@@ -30,6 +29,9 @@ class Personnage {
         $this->XP = 0;
     }
 
+    public function getNom() {
+        return $this->nom;
+    }
     public function getPV() {
         return $this->PV;
     }
@@ -46,20 +48,64 @@ class Personnage {
         return $this->XP;
     }
 
+    public function getEvolution() {
+        return $this->evolution;
+    }
+    public function getInventaire() {
+        return $this->inventaire;
+    }
     public function getNiveau() {
         return $this->niveau;
+    }
+    public function affronterMonstre($monstre) {
+        echo $this->nom . " affrontez le monstre " . $monstre->getNom() . " !<br>";
     }
 
 }   
 
 class Salle {
     private $event;
-    public function __construct($event) {
+    private $monstre;
+    public function __construct($event,  $monstre = null) {
         $this->event = $event;
+        $this->monstre = $monstre;
     }
 
     public function getEvent() {
         return $this->event;
+    }
+    public function getMonstre() {
+        return $this->monstre;
+    }
+
+}
+class Monstre {
+    private $nom;
+    private $PV;
+    private $PA;
+    private $PD;
+
+    public function __construct($nom, $PV, $PA, $PD) {
+        $this->nom = $nom;
+        $this->PV = $PV;
+        $this->PA = $PA;
+        $this->PD = $PD;
+    }
+
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getPV() {
+        return $this->PV;
+    }
+
+    public function getPA() {
+        return $this->PA;
+    }
+
+    public function getPD() {
+        return $this->PD;
     }
 }
 
@@ -106,4 +152,14 @@ print_r($butin);
 
 $salle_special = new Salle_speciale("piege");
 print_r($salle_special);
+
+$salle->getMonstre();
+$monstreNormal = new monstre("Orc", 50, 20, 10);
+
+//$salle_special = new Salle_speciale("piege", $monstreNormal);
+$monstreDansSalleSpeciale = $salle_special->getMonstre(); 
+
+if ($monstreDansSalleSpeciale !== null) {
+    $personnage->affronterMonstre($monstreDansSalleSpeciale);
+}
 ?>
