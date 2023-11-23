@@ -238,7 +238,6 @@ class DAO {
 
     public function showCurrentCharaInventory () {
         try {
-<<<<<<< HEAD
             $row = $this->bdd->prepare("SELECT * FROM inventaire");
             $row->execute();
         } catch (PDOException $e) {
@@ -280,9 +279,7 @@ class DAO {
             $row2 = $this->bdd->prepare("SELECT * FROM save WHERE id = ?", [$userSelection]);
             $row2->execute();
             return true;
-=======
             $row = "";
->>>>>>> 17d8815b64e4021b56f4a3629e03ced16bdbc2e5
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
