@@ -11,7 +11,6 @@ class Personnage {
     private $niveau;
     private $evolution;
     private $inventaire;
-    private $arme; 
 
     public function __construct($nom, $PV, $PD, $PA, $XP) {
         $this->nom = $nom;
@@ -32,6 +31,9 @@ class Personnage {
         $this->XP = 0;
     }
 
+    public function getNom() {
+        return $this->nom;
+    }
     public function getPV() {
         return $this->PV;
     }
@@ -48,26 +50,84 @@ class Personnage {
         return $this->XP;
     }
 
+    public function getEvolution() {
+        return $this->evolution;
+    }
+    public function getInventaire() {
+        return $this->inventaire;
+    }
     public function getNiveau() {
         return $this->niveau;
+    }
+    public function affronterMonstre($monstre) {
+        echo $this->nom . " affrontez le monstre " . $monstre->getNom() . " !<br>";
     }
 
 }   
 
+class Monstre {
+    private $nom;
+    private $PV;
+    private $PA;
+    private $PD;
+
+    public function __construct($nom, $PV, $PA, $PD) {
+        $this->nom = $nom;
+        $this->PV = $PV;
+        $this->PA = $PA;
+        $this->PD = $PD;
+    }
+
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getPV() {
+        return $this->PV;
+    }
+
+    public function getPA() {
+        return $this->PA;
+    }
+
+    public function getPD() {
+        return $this->PD;
+    }
+}
+
 class Salle {
+    private $type;
     private $event;
-    public function __construct($event) {
+    private $experience;
+    private $monstre;
+    public function __construct($type, $event, $experience, $monstre) {
+        $this->type = $type;
         $this->event = $event;
+        $this->experience = $experience;
+        $this->monstre = $monstre;
+    }
+
+    public function getType() {
+        return $this->type;
     }
 
     public function getEvent() {
         return $this->event;
     }
+    
+    public function getExperience() {
+        return $this->experience;
+    }
+
+    public function getMonstre() {
+        return $this->monstre;
+    }
+
 }
 
 class Salle_speciale extends Salle {
-    public function __construct($event) {
-        parent::__construct($event);
+    public function __construct($type, $event, $experience, $monstre) {
+        parent::__construct($type, $event, $experience, $monstre);
     }
 }
 
@@ -96,13 +156,53 @@ class Butin {
     }
 }
 
+class Objet {
+    private $nom;
+    private $type;
+    private $malediction;
+    private $value;
+    public function __construct($nom, $type, $malediction, $value) {
+        $this->nom = $nom;
+        $this->type = $type;
+        $this->malediction = $malediction;
+        $this->value = $value;
+    }
+
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function getMalediction() {
+        return $this->malediction;
+    }
+
+    public function getValue() {
+        return $this->value;
+    }
+}
+
 class DAO {
     private $bdd;
     public function __construct($bdd) {
         $this->bdd = $bdd;
     }
 
-    public function createNewPerso() {
+    public function addObject($objet)
+    {
+        try {
+            $requete = $this->bdd->prepare("INSERT INTO objet (nom, type, malediction, value) VALUES (?, ?, ?, ?)");
+            $requete->execute([$objet->getNom(), $objet->getType(), $objet->getMalediction(), $objet->getValue()]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur d'ajout du objet: " . $e->getMessage();
+        }
+    }
+    
+    public function createNewPerso($personnage) {
         try {
             $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)");
             $row->execute([
@@ -123,10 +223,22 @@ class DAO {
         }
     }
 
+    public function addSalle($salle)
+    {
+        try {
+            $requete = $this->bdd->prepare("INSERT INTO salle (type, event, expSalle, monstre_id) VALUES (?, ?, ?, ?)");
+            $requete->execute([$salle->getType(), $salle->getEvent(), $salle->getExperience(), $salle->getMonstre()]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur d'ajout du objet: " . $e->getMessage();
+        }
+    }
+
     public function selectParty() {}
 
     public function showCurrentCharaInventory () {
         try {
+<<<<<<< HEAD
             $row = $this->bdd->prepare("SELECT * FROM inventaire");
             $row->execute();
         } catch (PDOException $e) {
@@ -168,6 +280,9 @@ class DAO {
             $row2 = $this->bdd->prepare("SELECT * FROM save WHERE id = ?", [$userSelection]);
             $row2->execute();
             return true;
+=======
+            $row = "";
+>>>>>>> 17d8815b64e4021b56f4a3629e03ced16bdbc2e5
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
@@ -175,20 +290,23 @@ class DAO {
     }
 }
 
-$DAO = new DAO($bdd);
+$DAO = new DAO($connexion);
+$objet = new Objet("epee", 1, 0, 10);
+// $DAO->addObject($objet);
 
 $personnage = new Personnage("Raph", 200, 50, 40, 125);
-print_r($personnage);
-$salle = new Salle(2);
-print_r($salle);
+// print_r($personnage);
+$salle = new Salle(0, 0, 1, 2);
+$DAO->addSalle($salle);
+// print_r($salle);
 
 $butin = new Butin();
 $butin->setButinClassique(["epee", "gants", "casque"]);
 $butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
-print_r($butin);
+// print_r($butin);
 
-$salle_special = new Salle_speciale("piege");
-print_r($salle_special);
+$salle_special = new Salle_speciale(1, 0, 3, 4);
+// print_r($salle_special);
 
 $a = 0;
 
@@ -199,6 +317,7 @@ while ($a === 0) {
     $choice = readline("> ");
     switch ($choice) {
         case 1:
+
             break;
         case 2:
             break;
@@ -209,6 +328,7 @@ while ($a === 0) {
         case 5;
             break;
         case 6:
+            $a = 1;
             break;
         default:
             echo "Choix impossible !\n";
