@@ -34,8 +34,8 @@ CREATE TABLE inventaire (
     value INT
 );
 
-CREATE TABLE save (
-);
+-- CREATE TABLE save (
+-- );
 
 CREATE TABLE salle (
     salleId INT AUTO_INCREMENT PRIMARY KEY,
