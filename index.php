@@ -148,7 +148,7 @@ class DAO {
         $this->bdd = $bdd;
     }
 
-    public function createNewPerso() {
+    public function createNewPerso($personnage) {
         try {
             $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)");
             $row->execute([
@@ -173,7 +173,7 @@ class DAO {
 
     public function showCurrentCharaInventory () {
         try {
-            $row = ""
+            $row = "";
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
