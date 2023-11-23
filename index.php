@@ -491,7 +491,7 @@ class DAO {
         }
     }
 
-    public function updatePerso($id) {
+    public function updatePerso($id, $personnage) {
         try {
             $row = $this->bdd->prepare("UPDATE perso SET nom = ?, pv = ?, pa = ?, pd = ?, exp = ?, niveau = ?, evolution = ? WHERE id = ?");
             $row->execute($personnage->getNom(),$personnage->getPV(),$personnage->getPA(),$personnage->getPD(),$personnage->getExperience(),$personnage->getNiveau(),$personnage->getEvolution(),[$id]);
@@ -502,7 +502,7 @@ class DAO {
         }
     }
 
-    public function updateSalle($id) {
+    public function updateSalle($id, $salle) {
         try {
             $row = $this->bdd->prepare("UPDATE salle SET type = ?, event = ?, expSalle = ?, monstre_id = ? WHERE id = ?");
             $row->execute($salle->getType(), $salle->getEvent(), $salle->getExperience(), $salle->getMonstre(), [$id]);
@@ -513,7 +513,7 @@ class DAO {
         }
     }
 
-    public function updateMonstre($id) {
+    public function updateMonstre($id, $monstre) {
         try {
             $row = $this->bdd->prepare("UPDATE monstre SET nom = ?, pd = ?, pa = ?, pv = ? WHERE id = ?");
             $row->execute($monstre->getNom(),$monstre->getPD(),$monstre->getPA(),$monstre->getPV(),[$id]);
@@ -524,9 +524,9 @@ class DAO {
         }
     }
 
-    public function updateInventaire($id) {
+    public function updateInventaire($id, $inventaires) {
         try {
-            $row = $this->bdd_>prepare("UPDATE inventaire SET obj1 = ?, obj2 = ?, obj3 = ?, obj4 = ?, obj5 = ?, obj6 = ?, obj7 = ?, obj8 = ?, obj9 = ?, obj10 = ? WHERE id = ?");
+            $row = $this->bdd->prepare("UPDATE inventaire SET obj1 = ?, obj2 = ?, obj3 = ?, obj4 = ?, obj5 = ?, obj6 = ?, obj7 = ?, obj8 = ?, obj9 = ?, obj10 = ? WHERE id = ?");
             $row->execute($inventaires->getObj1(),$inventaires->getObj2(),$inventaires->getObj3(),$inventaires->getObj4(),$inventaires->getObj5(),$inventaires->getObj6(),$inventaires->getObj7(),$inventaires->getObj8(),$inventaires->getObj9(),$inventaires->getObj10(),[$id]);
         } catch (PDOException $e) {
             echo "Erreur lors de la modification de l'inventaire " . $e->getMessage();
