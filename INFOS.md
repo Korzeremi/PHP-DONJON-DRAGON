@@ -5,11 +5,12 @@
 	- nom, pa, pv, pd, exp et évolution (tableau de tableau)
 	- tableau Inventaire (10 emp)
 	- tableau Sac (Illimité)
-- Salle : 
-	- Evenements (énigme, piège, marchands et combats)
-- Salle spéciale (extends Salle) :
-	- Evenements spéciaux (énigme, piège, marchands ou combats spéciaux : BOSS …)
-	- possibilité de sortir (quitter le jeu) ou explorer le donjon pour passer d’une salle à l’autre
+- Salles :
+    - Salle : 
+        - Evenements (énigme, piège, marchands et combats)
+    - Salle spéciale (extends Salle) :
+        - Evenements spéciaux (énigme, piège, marchands ou combats spéciaux : BOSS …)
+        - possibilité de sortir (quitter le jeu) ou explorer le donjon pour passer d’une salle à l’autre
 - Combats :
 	- affronter des monstres dans chaque salle avec stats ++ dans spéciale
 - butin :
