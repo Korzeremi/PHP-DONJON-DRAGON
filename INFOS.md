@@ -22,3 +22,5 @@
 - Sauvegarde dans DB
 - Système de sauvegarde
 - Commentaires
+
+["epee", "gants", "casque"], ["grosse epee", "gants metal", "casque metal"]
