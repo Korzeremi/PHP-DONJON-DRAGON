@@ -271,7 +271,7 @@ class DAO {
         }
     }
 
-    public function getObjet() {
+    public function getObjet($butin) {
         try {
             $row = $this->bdd->prepare("SELECT * FROM objet WHERE type = 0");
             $row->execute();
@@ -297,22 +297,29 @@ class DAO {
 
     public function getSave() {
         try {
-            echo "Voici les sauvegardes > ";
             $row = $this->bdd->prepare("SELECT * FROM save");
             $row->execute();
-            $userSelection = readline(">");
-            $row2 = $this->bdd->prepare("SELECT * FROM save WHERE id = ?", [$userSelection]);
-            $row2->execute();
             return true;
-            $row = "";
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
         }
     }
+
+    public function getSaveById($id) {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM save WHERE id = ?");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur pour l'inventaire: " . $e->getMessage();
+            return false;
+        }
+    } 
 }
 
 $DAO = new DAO($connexion);
+
 // $objet = new Objet("epee", 1, 0, 10);
 // $DAO->addObject($objet);
 
