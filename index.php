@@ -236,10 +236,22 @@ class DAO {
 
     public function selectParty() {}
 
+    public function getPerso() {
+        try {
+            $row = $this->bdd->prepare("SELECT * FROM personnage");
+            $row->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des personnages " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function getInventory () {
         try {
             $row = $this->bdd->prepare("SELECT * FROM inventaire");
             $row->execute();
+            return true;
         } catch (PDOException $e) {
             echo "Erreur pour l'inventaire: " . $e->getMessage();
             return false;
