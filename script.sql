@@ -15,6 +15,7 @@ CREATE TABLE personnage (
     pv INT,
     pd INT,
     exp INT,
+    niveau INT,
     evolution TEXT,
     inventaire_id INT,
     FOREIGN KEY (inventaire_id) REFERENCES inventaire(id)
