@@ -61,15 +61,9 @@ CREATE TABLE salle (
 
 CREATE TABLE objet (
     id INT AUTO_INCREMENT PRIMARY KEY,
-<<<<<<< HEAD
     nom VARCHAR(80),
     type BOOLEAN,
     malediction BOOLEAN,
-=======
-    type BOOL,
-    nom VARCHAR(55),
-    malediction BOOL,
->>>>>>> 9bffecfb62d37f7c7f89c60053d64531071d5ba2
     value INT
 );
 

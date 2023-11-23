@@ -201,7 +201,7 @@ class DAO {
             echo "Erreur d'ajout du objet: " . $e->getMessage();
         }
     }
-
+    
     public function createNewPerso($personnage) {
         try {
             $row = $this->bdd->prepare("INSERT INTO personnage (nom,pv,pa,pd,pds,exp,niveau,evolution,inventaire_id) VALUES (?,?,?,?,?,?,?,?,?)");
