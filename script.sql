@@ -78,45 +78,54 @@ CREATE TABLE piege (
     phrase VARCHAR(255)
 );
 
-INSERT INTO personnage (nom, pv, pa, pd,exp, niveau, evolution, inventaire_id) VALUES (remi,100,20,30,100,10,'',3)
-INSERT INTO personnage (nom, pv, pa, pd,exp, niveau, evolution, inventaire_id) VALUES (leon,100,20,30,100,10,'',2)
-INSERT INTO personnage (nom, pv, pa, pd,exp, niveau, evolution, inventaire_id) VALUES (raph,100,20,30,100,10,'',1)
+INSERT INTO personnage (nom, pv, pa, pd,exp, niveau, evolution, inventaire_id) 
+VALUES 
+(remi,100,20,30,100,10,'',3),
+(leon,100,20,30,100,10,'',2),
+(raph,100,20,30,100,10,'',1);
 
-INSERT INTO monstre (nom, pv, pa, pd) VALUES (Orc,30,10,20)
-INSERT INTO monstre (nom, pv, pa, pd) VALUES (Squelette,50,30,40)
-INSERT INTO monstre (nom, pv, pa, pd) VALUES (Dragon,150,60,100)
-INSERT INTO monstre (nom, pv, pa, pd) VALUES (zombie,20,15,20)
-INSERT INTO monstre (nom, pv, pa, pd) VALUES (extra terrestre,50,30,30)
-INSERT INTO monstre (nom, pv, pa, pd) VALUES (loup-garou,100,50,70)
-
-
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',1)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',2)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',2)
-INSERT INTO salle (type, event, experience, monstre) VALUES (1,=,'',0)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',4)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',5)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',5)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',6)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',5)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',5)
-INSERT INTO salle (type, event, experience, monstre) VALUES (1,=,'',0)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',6)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',6)
+INSERT INTO monstre (nom, pv, pa, pd)
+ VALUES 
+(Orc,30,10,20),
+(Squelette,50,30,40),
+(Dragon,150,60,100),
+(zombie,20,15,20),
+(extra terrestre,50,30,30),
+(loup-garou,100,50,70);
 
 
-INSERT INTO objet (nom,type,malediction,value) VALUES (épée en bois,arme,1,5)
-INSERT INTO objet (nom,type,malediction,value) VALUES (épée en fer,arme,1,15)
-INSERT INTO objet (nom,type,malediction,value) VALUES (épée en or,arme,1,30)
-INSERT INTO objet (nom,type,malediction,value) VALUES (épée en diamand,arme,1,50)
-INSERT INTO objet (nom,type,malediction,value) VALUES (Lance mystique,arme,1,60)
-INSERT INTO objet (nom,type,malediction,value) VALUES (potion de regeneration,arme,0,20)
-INSERT INTO objet (nom,type,malediction,value) VALUES (pomme,arme,0,5)
+INSERT INTO salle (type, event, experience, monstre) 
+VALUES 
+(0,=,'',1),
+(0,=,'',2),
+(0,=,'',2),
+(1,=,'',0),
+(0,=,'',4),
+(0,=,'',5),
+(0,=,'',5),
+(0,=,'',6),
+(0,=,'',5),
+(0,=,'',5),
+(1,=,'',0),
+(0,=,'',6),
+(0,=,'',6);
 
-INSERT INTO enigma (question,reponse) VALUES (qu es ce qui dois etre casser avant qu on lutilise ?, un oeuf )
-INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
-INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
-INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
-INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
+
+INSERT INTO objet (nom,type,malediction,value) 
+VALUES 
+(épée en bois,arme,1,5),
+(épée en fer,arme,1,15),
+(épée en or,arme,1,30),
+(épée en diamand,arme,1,50),
+(Lance mystique,arme,1,60),
+(potion de regeneration,arme,0,20),
+(pomme,arme,0,5);
+
+INSERT INTO enigma (question,reponse) 
+VALUES 
+(qu es ce qui dois etre casser avant qu on lutilise ?, un oeuf ),
+( 1+1 ?, 2 ),
+( 3*3?, 9 );
+
 
 
