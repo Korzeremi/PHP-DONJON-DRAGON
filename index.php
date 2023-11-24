@@ -210,7 +210,7 @@ class Inventaire {
     private $obj10;
     private $statut;
 
-    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10) {
+    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10,$statut) {
         $this->obj1 = $obj1;
         $this->obj2 = $obj2;
         $this->obj3 = $obj3;
