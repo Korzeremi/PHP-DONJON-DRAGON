@@ -173,6 +173,22 @@ class Salle {
         return $this->monstre;
     }
 
+    public function setType($type) {
+        $this->type = $type;
+    }
+
+    public function setEvent($event) {
+        $this->event = $event;
+    }
+
+    public function setExperience($experience) {
+        $this->experience = $experience;
+    }
+
+    public function setMonstre($monstre) {
+        $this->monstre = $monstre;
+    }
+
 }
 
 class Salle_speciale extends Salle {
@@ -192,10 +208,9 @@ class Inventaire {
     private $obj8;
     private $obj9;
     private $obj10;
-
     private $statut;
 
-    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10,$statut) {
+    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10) {
         $this->obj1 = $obj1;
         $this->obj2 = $obj2;
         $this->obj3 = $obj3;
@@ -206,6 +221,7 @@ class Inventaire {
         $this->obj8 = $obj8;
         $this->obj9 = $obj9;
         $this->obj10 = $obj10;
+        $this->statut = $statut;
     }
 
     public function getObj1() {
