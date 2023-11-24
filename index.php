@@ -336,14 +336,12 @@ class Objet {
     private $nom;
     private $type;
     private $arme;
-    private $statut;
     private $malediction;
     private $value;
 
     public function __construct($nom, $type, $statut, $arme, $malediction, $value) {
         $this->nom = $nom;
         $this->type = $type;
-        $this->statut = $statut;
         $this->arme = $arme;
         $this->malediction = $malediction;
         $this->value = $value;
@@ -365,20 +363,12 @@ class Objet {
         return $this->arme;
     }
 
-    public function getStatut() {
-        return $this->statut;
-    }
-
     public function getValue() {
         return $this->value;
     }
     
     public function setNom($nom) {
         $this->nom = $nom;
-    }
-
-    public function setStatut($statut) {
-        $this->statut = $statut;
     }
 
     public function setArme($arme) {
