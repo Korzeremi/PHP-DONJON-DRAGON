@@ -740,7 +740,7 @@ class DAO {
                     jouer($salles);
                     break;
                 case 2:
-                    AfficherPersonnages($personnages);
+                    AfficherPersonnages($DAO);
                     break;
                 case 3:
                     VoirInventaire($DAO);
@@ -786,11 +786,14 @@ class DAO {
         }
     }
 
-    function AfficherPersonnages($personnages) {
+    function AfficherPersonnages($DAO) {
+        global $main_char;
+        $personnages = $DAO->getPerso();
         popen("clear", "w");
         popen("cls", "w");
         foreach ($personnages as $personnage) {
-            echo "Nom : " . $personnage["nom"] . "\n" .
+            echo "ID : " . $personnage["id"] . "\n" .
+                    "Nom : " . $personnage["nom"] . "\n" .
                     "PV : " . $personnage["pv"] . "\n" . 
                     "Puissance d'attaque : " . $personnage["pa"] . "\n" . 
                     "Defense : " . $personnage["pd"] . "\n" . 
@@ -799,9 +802,24 @@ class DAO {
                     sleep(1);
         }
         
-        echo "Appuie sur Entrer pour retourner au menu\n";
+        echo "Que souhaites-tu faire ?\n1 - Choisir un personnage\n2 - Quitter\n";
         echo "> ";
-        $pass = trim(fgets(STDIN));
+        $choice = trim(fgets(STDIN));
+        switch ($choice) {
+            case 1:
+                popen("cls", "w");
+                popen("clear", "w");
+                echo "Lequel souhaites-tu utiliser ?\n";
+                echo "> ";
+                $choice = trim(fgets(STDIN));
+                $main_char = $personnages[$choice - 1];
+                break;
+            case 2:
+                break;
+            default: 
+                echo "Choix impossible !";
+                break;
+        }
     }
 
     function CreationPersonnage($DAO) {
@@ -838,6 +856,7 @@ class DAO {
                     break;
                 default:
                     echo "Choix indisponible !\n";
+                    break;
             }
 
         $DAO->addPersonnage($personnage);
@@ -865,7 +884,7 @@ class DAO {
             $inventaire = $inventaires[$main_char["inventaire_id"] - 1];
             popen("cls", "w");
             popen("clear", "w");
-            echo "Ton inventaire :\n" .
+            echo $main_char["nom"] . " inventaire :\n" .
                  "\nObject 1 : " . $inventaire["obj1"] . 
                  "\nObject 2 : " . $inventaire["obj2"] . 
                  "\nObject 3 : " . $inventaire["obj3"] . 
@@ -884,6 +903,6 @@ class DAO {
         }
     }
 
-    menu($personnages, $salles,$DAO);
+    menu($personnages, $salles, $DAO);
 
 ?>
