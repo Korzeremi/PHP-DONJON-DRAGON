@@ -750,24 +750,7 @@ class DAO {
     }
 
     function jouer() {
-        echo "jouer";
-        echo "> ";
-        $playChoice = trim(fgets(STDIN));
-        switch ($playChoice) {
-            case 1 :
-                break;
-            case 2 :
-                break;
-            default :
-                break;
-                // jouer 
-                // switch case 1 nouvelle partie
-                // créer un perso
-                // recup les data (premier monstre, niveau, arme)
-                // dé random (combat, enigme, marchands ou piege)
-                // evoluer()
-                // switch case 2 charger partie
-        }
+        $test = []; // array taille niveau du joeuur qui genere autant de salle que de niveau du joueur
     }
 
     function AfficherPersonnages($personnages) {
@@ -784,35 +767,36 @@ class DAO {
         }
         
         echo "Appuie sur Entrer pour retourner au menu\n";
-        trim(fgets(STDIN));;
+        echo "> ";
+        $pass = trim(fgets(STDIN));
     }
 
     function CreationPersonnage($DAO) {
         popen("clear", "w");
         popen("cls", "w");
-        echo "Quel nom souhaites-tu donner ?\n";
-        echo "> ";
-        $nom = trim(fgets(STDIN));;
-        popen("clear", "w");
-        popen("cls", "w");
-        echo "Comment souhaites-tu que ton personnage soit orienté ?\n1 - Axé Attaque\n2 - Axé Point de vie\n3 - Axé Défense\n4 - Quitter\n";
-        echo "> ";
-        $choice = trim(fgets(STDIN));;
-        switch ($choice) {
-            case 1:
-                $personnage = new Personnage($nom, 50, 20, 15, 0, NULL);
-                break;
-            case 2:
-                $personnage = new Personnage($nom, 150, 7, 20, 0, NULL);
-                break;
-            case 3:
-                $personnage = new Personnage($nom, 80, 8, 40, 0, NULL);
-                break;
-            case 4:
-                break;
-            default:
-                echo "Choix indisponible !\n";
-        }
+            echo "Quel nom souhaites-tu donner ?\n";
+            echo "> ";
+            $nom = trim(fgets(STDIN));
+            popen("cls", "w");
+            echo "Comment souhaites-tu que ton personnage soit orienté ?\n1 - Axé Attaque\n2 - Axé Point de vie\n3 - Axé Défense\n4 - Quitter\n";
+            echo "> ";
+            $choice = trim(fgets(STDIN));
+            switch ($choice) {
+                case 1:
+                    $personnage = new Personnage($nom, 50, 20, 15, 0, NULL);
+                    break;
+                case 2:
+                    $personnage = new Personnage($nom, 150, 7, 20, 0, NULL);
+                    break;
+                case 3:
+                    $personnage = new Personnage($nom, 80, 8, 40, 0, NULL);
+                    break;
+                case 4:
+                    break;
+                default:
+                    echo "Choix indisponible !\n";
+
+            }
 
         $DAO->addPersonnage($personnage);
         popen("clear", "w");
