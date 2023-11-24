@@ -728,7 +728,7 @@ class DAO {
             $choice =  trim(fgets(STDIN));
             switch ($choice) {
                 case 1:
-                    jouer($salles);
+                    jouer($salles,$DAO);
                     break;
                 case 2:
                     AfficherPersonnages($DAO);
@@ -753,16 +753,40 @@ class DAO {
         }
     }
 
-    function jouer($salles) {
+    function jouer($salles,$DAO) {
         global $main_char;
         $donjon = [];
+        $monstreAll = $DAO->getMonstre();
         for ($i = 1; $i <= $main_char['id']; $i++) {
             $random_room_id = rand(1, 10); 
             $room = $salles[$random_room_id - 1];
             array_push($donjon, $room);
             switch ($room['event']) {
                 case 1:
-                    // combat
+                    $monstre = $monstreAll[$room['monstre_id' - 1]];
+                    while($monstre['pv']>0) {
+                        echo "PV Adversaire : " . $monstre['pv'] . "\n";
+                        echo "Vos PV : " . $main_char['pv'] . "\n";
+                        echo "Que voulez-vous faire ?\n1. Attaquer 2. Se Défendre";
+                        $userChoice = trim(fgets(STDIN));
+                        switch ($userChoice) {
+                            case 1:
+                                $monstre['pv'] -= $main_char['pa'];
+                                echo "Vous venez d'attaquer " . $monstre['nom'];
+                                break;
+                            case 2:
+                                $monstre['pa'] -= $main_char['pd'];
+                                $main_char['pv'] -= $monstre['pa'];
+                                echo "Vous vous défendez et recevez " . $monstre['pa'] . " points de dégats.";
+                                break;
+                            case 3:
+                                echo "Vous prenez la fuite ! \n";
+                                break;
+                        }
+                        if($main_char['pv'] <= 0) {
+                            return;
+                        }
+                    }
                     break;
                 case 2:
                     // piege
