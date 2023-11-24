@@ -1,8 +1,9 @@
 <?php
-
+//On inclus la page config.php pour la relation avec la base de donnée
 include 'config.php';
-
+// On viens creer plusieurs classes (ici la classe personnage)
 class Personnage {
+    //On annonce ses variables
     private $nom;
     private $PV;
     private $PA;
@@ -11,7 +12,7 @@ class Personnage {
     private $niveau;
     private $evolution;
     private $inventaire;
-
+//on fait le construct
     public function __construct($nom, $PV, $PD, $PA, $XP, $inventaire) {
         $this->nom = $nom;
         $this->PV = $PV;
@@ -63,6 +64,39 @@ class Personnage {
         echo $this->nom . " affrontez le monstre " . $monstre->getNom() . " !<br>";
     }
 
+
+    public function setNom($nom) {
+        $this->nom = $nom;
+    }
+
+    public function setPV($PV) {
+        $this->PV = $PV;
+    }
+
+    public function setPA($PA) {
+        $this->PA = $PA;
+    }
+
+    public function setPD($PD) {
+        $this->PD = $PD;
+    }
+
+    public function setXP($XP) {
+        $this->XP = $XP;
+    }
+
+    public function setNiveau($niveau) {
+        $this->niveau = $niveau;
+    }
+
+    public function setEvolution($evolution) {
+        $this->evolution = $evolution;
+    }
+
+    public function setInventaire($inventaire) {
+        $this->inventaire = $inventaire;
+    }
+
 }   
 
 class Monstre {
@@ -92,6 +126,22 @@ class Monstre {
 
     public function getPD() {
         return $this->PD;
+    }
+
+    public function setNom($nom) {
+        $this->nom = $nom;
+    }
+
+    public function setPV($PV) {
+        $this->PV = $PV;
+    }
+
+    public function setPA($PA) {
+        $this->PA = $PA;
+    }
+
+    public function setPD($PD) {
+        $this->PD = $PD;
     }
 }
 
@@ -143,7 +193,9 @@ class Inventaire {
     private $obj9;
     private $obj10;
 
-    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10) {
+    private $statut;
+
+    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10,$statut) {
         $this->obj1 = $obj1;
         $this->obj2 = $obj2;
         $this->obj3 = $obj3;
@@ -290,6 +342,21 @@ class Objet {
     public function getValue() {
         return $this->value;
     }
+    public function setNom($nom) {
+        $this->nom = $nom;
+    }
+
+    public function setType($type) {
+        $this->PV = $type;
+    }
+
+    public function setMalediction($malediction) {
+        $this->PA = $malediction;
+    }
+
+    public function setValue($value) {
+        $this->PD = $value;
+    }
 }
 
 class DAO {
@@ -306,7 +373,7 @@ class DAO {
                                $objet->getType(), 
                                $objet->getMalediction(), 
                                $objet->getValue()
-                            ]);
+                             ]);
             return true;
         } catch (PDOException $e) {
             echo "Erreur d'ajout du objet: " . $e->getMessage();
