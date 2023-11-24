@@ -772,6 +772,7 @@ class DAO {
     }
 
     function CreationPersonnage($DAO) {
+        global $main_char;
         popen("clear", "w");
         popen("cls", "w");
             echo "Quel nom souhaites-tu donner ?\n";
@@ -799,6 +800,7 @@ class DAO {
             }
 
         $DAO->addPersonnage($personnage);
+        $main_char = $personnage;
         popen("clear", "w");
         popen("cls", "w");
         echo "Création du personnage...";
@@ -811,12 +813,14 @@ class DAO {
             echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
             sleep(1);
             return;
-        } else if (gettype($main_char) != 'string') {
+        } else if (gettype($main_char) != 'object') {
             echo "Choix impossible !";
             sleep(1);
             return;
         } else {
-            echo "JE T'AFFICHE CA CHAMPION !";
+            echo "JE T'AFFICHE CA CHAMPION !\n\n";
+            print_r($main_char);
+            trim(fgets(STDIN));
         }
     }
 
