@@ -712,24 +712,32 @@ class DAO {
 
     $inventaires = new Inventaire(1,1,1,1,1,1,1,1,1,1,1);
 
-    function Menu() {
+    function Menu($personnages, $DAO) {
+        global $main_char;
         $a = 0;
         $main_char = "";
         while ($a === 0) {
             popen("clear", "w");
+            popen("cls", "w");
             echo "Bienvenue dans Donjon & Dragon !\n\n";
             sleep(1);
-            echo "Que souhaites-tu faire ?\n1 - Jouer\n2 - Sauvegarde\n4 - Quitter\n";
+            echo "Que souhaites-tu faire ?\n1 - Jouer\n2 - Afficher tous les personnages\n3 - Création de personnage\n4 - Sauvegarde\n5 - Quitter\n";
             $choice =  trim(fgets(STDIN));
             switch ($choice) {
                 case 1:
                     jouer();
                     break;
                 case 2:
+                    AfficherPersonnages($personnages);
+                    break;
+                case 3:
+                    CreationPersonnage($DAO);
+                    break;
+                case 4:
                     echo "Récuperation la sauvegarde...";
                     sleep(1);
                     break;
-                case 4:
+                case 5:
                     $a = 1;
                     break;
                 default:
@@ -759,21 +767,66 @@ class DAO {
             }
     }
 
-    function gestion() {
-                    // gestion BDD
-                    if ($main_char === "") {
-                        echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
-                        sleep(1);
-                        return;
-                    } else if (gettype($main_char) != 'string') {
-                        echo "Choix impossible !";
-                        sleep(1);
-                        return;
-                    } else {
-                        echo "JE T'AFFICHE CA CHAMPION !";
-                    }
+    function gestion($main_char) {
+        // gestion BDD
+        if ($main_char === "") {
+            echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
+            sleep(1);
+            return;
+        } else if (gettype($main_char) != 'string') {
+            echo "Choix impossible !";
+            sleep(1);
+            return;
+        } else {
+            echo "JE T'AFFICHE CA CHAMPION !";
+        }
     }
 
-    menu();
+    function AfficherPersonnages($personnages) {
+        popen("cls", "w");
+        foreach ($personnages as $personnage) {
+            echo "Nom : " . $personnage["nom"] . "\n" .
+                    "PV : " . $personnage["pv"] . "\n" . 
+                    "Puissance d'attaque : " . $personnage["pa"] . "\n" . 
+                    "Defense : " . $personnage["pd"] . "\n" . 
+                    "XP : " . $personnage["exp"] . "\n" . 
+                    "Niveau : " . $personnage["niveau"] . "\n\n";
+                    sleep(1);
+        }
+        echo "Appuie sur Entrer pour retourner au menu\n";
+        readline("> ");
+    }
+
+    function CreationPersonnage($DAO) {
+        popen("cls", "w");
+            echo "Quel nom souhaites-tu donner ?\n";
+            $nom = readline("> ");
+            popen("cls", "w");
+            echo "Comment souhaites-tu que ton personnage soit orienté ?\n1 - Axé Attaque\n2 - Axé Point de vie\n3 - Axé Défense\n4 - Quitter\n";
+            $choice = readline("> ");
+            switch ($choice) {
+                case 1:
+                    $personnage = new Personnage($nom, 50, 20, 15, 0, NULL);
+                    break;
+                case 2:
+                    $personnage = new Personnage($nom, 150, 7, 20, 0, NULL);
+                    break;
+                case 3:
+                    $personnage = new Personnage($nom, 80, 8, 40, 0, NULL);
+                    break;
+                case 4:
+                    break;
+                default:
+                    echo "Choix indisponible !\n";
+
+            }
+
+            $DAO->addPersonnage($personnage);
+            popen("cls", "w");
+            echo "Création du personnage...";
+            sleep(1);
+    }
+
+    menu($personnages, $DAO);
 
 ?>
