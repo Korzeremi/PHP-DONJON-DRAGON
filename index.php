@@ -359,7 +359,6 @@ class Objet {
     private $malediction;
     private $value;
 
-
     public function __construct($nom, $type, $statut, $arme, $malediction, $value) {
         $this->nom = $nom;
         $this->type = $type;
@@ -673,11 +672,9 @@ class DAO {
         try {
             $row = $this->bdd->prepare("DROP FROM inventaire");
             $row->execute();
-        } catch (PDOException $e) 
-        {
+        } catch (PDOException $e) {
             echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
         }
-    }
 }
 
     $DAO = new DAO($connexion);
@@ -743,6 +740,7 @@ class DAO {
                 default:
                     echo "Choix impossible !\n";
                     break;
+                    echo "Choix indisponible !\n";
             }
         }
     }
@@ -750,7 +748,7 @@ class DAO {
     function jouer() {
         echo "jouer";
         $playChoice = trim(fgets(STDIN));
-        switch ($playChoice) {
+        switch ($playChoice) :
             case 1 :
                 break;
             case 2 :
@@ -764,7 +762,6 @@ class DAO {
                 // dé random (combat, enigme, marchands ou piege)
                 // evoluer()
                 // switch case 2 charger partie
-            }
     }
 
     function gestion($main_char) {
