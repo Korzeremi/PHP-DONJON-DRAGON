@@ -61,6 +61,7 @@ CREATE TABLE objet (
     nom VARCHAR(80),
     type BOOLEAN,
     malediction BOOLEAN,
+    statut BOOLEAN,
     value INT
 );
 
