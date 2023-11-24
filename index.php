@@ -797,6 +797,13 @@ class DAO {
                         if($main_char['pv'] <= 0) {
                             return;
                         }
+                        if($monstre['pv'] <= 0) {
+                            echo "Vous venez de tuer " . $monstre['nom'] . "\nAppuyer sur Entrée";
+                            gagnerXP($room['expSalle'],$DAO);
+                            gestionNiveau($DAO);
+                            $pass = trim(fgets(STDIN));
+                            break;
+                        }
                     }
                     break;
                 case 2:
@@ -929,23 +936,19 @@ class DAO {
         }
     }
 
-    function gestionNiveau($main_char, $DAO) {
+    function gestionNiveau($DAO) {
+        global $main_char;
         $niveauActuel = $main_char["niveau"];
         $xpActuelle = $main_char["exp"];
         $expNecessaire = 100 * $niveauActuel;
     
         if ($xpActuelle >= $expNecessaire) {
             $nouveauNiveau = $niveauActuel + 1;
-    
             $nouvelleXP = $xpActuelle - $expNecessaire;
-    
             $main_char["niveau"] = $nouveauNiveau;
             $main_char["exp"] = $nouvelleXP;
-
             print_r($main_char);
-    
             $DAO->updatePerso($main_char["id"], $main_char);
-    
             echo $main_char["nom"] . " a atteint le niveau " . $nouveauNiveau . " !\n";
         }
     }
