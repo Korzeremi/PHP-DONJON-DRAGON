@@ -103,6 +103,20 @@ INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',5)
 INSERT INTO salle (type, event, experience, monstre) VALUES (1,=,'',0)
 INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',6)
 INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',6)
-INSERT INTO salle (type, event, experience, monstre) VALUES (0,=,'',6)
+
+
+INSERT INTO objet (nom,type,malediction,value) VALUES (épée en bois,arme,1,5)
+INSERT INTO objet (nom,type,malediction,value) VALUES (épée en fer,arme,1,15)
+INSERT INTO objet (nom,type,malediction,value) VALUES (épée en or,arme,1,30)
+INSERT INTO objet (nom,type,malediction,value) VALUES (épée en diamand,arme,1,50)
+INSERT INTO objet (nom,type,malediction,value) VALUES (Lance mystique,arme,1,60)
+INSERT INTO objet (nom,type,malediction,value) VALUES (potion de regeneration,arme,0,20)
+INSERT INTO objet (nom,type,malediction,value) VALUES (pomme,arme,0,5)
+
+INSERT INTO enigma (question,reponse) VALUES (qu es ce qui dois etre casser avant qu on lutilise ?, un oeuf )
+INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
+INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
+INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
+INSERT INTO enigma (question,reponse) VALUES ( ?, un oeuf )
 
 
