@@ -743,7 +743,7 @@ class DAO {
                     AfficherPersonnages($personnages);
                     break;
                 case 3:
-                    VoirInventaire();
+                    VoirInventaire($DAO);
                     break;
                 case 4:
                     CreationPersonnage($DAO);
@@ -850,7 +850,7 @@ class DAO {
         sleep(1);
     }
 
-    function VoirInventaire() {
+    function VoirInventaire($DAO) {
         global $main_char;
         if ($main_char === "") {
             echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
@@ -861,9 +861,26 @@ class DAO {
             sleep(1);
             return;
         } else {
-            echo "JE T'AFFICHE CA CHAMPION !\n\n";
-            echo "Ton inventaire est : \n" . $main_char["inventaire_id"];
+            $inventaires = $DAO->getInventaire();
+            $inventaire = $inventaires[$main_char["inventaire_id"] - 1];
+            popen("cls", "w");
+            popen("clear", "w");
+            echo "Ton inventaire :\n" .
+                 "\nObject 1 : " . $inventaire["obj1"] . 
+                 "\nObject 2 : " . $inventaire["obj2"] . 
+                 "\nObject 3 : " . $inventaire["obj3"] . 
+                 "\nObject 4 : " . $inventaire["obj4"] . 
+                 "\nObject 5 : " . $inventaire["obj5"] . 
+                 "\nObject 6 : " . $inventaire["obj6"] . 
+                 "\nObject 7 : " . $inventaire["obj7"] . 
+                 "\nObject 8 : " . $inventaire["obj8"] . 
+                 "\nObject 9 : " . $inventaire["obj9"] . 
+                 "\nObject 10 : " . $inventaire["obj10"];
+            
+            echo "\n\nAppuie sur Entrer pour retrourner au menu\n";
+            echo "> ";
             trim(fgets(STDIN));
+            return;
         }
     }
 
