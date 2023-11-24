@@ -675,6 +675,7 @@ class DAO {
         } catch (PDOException $e) {
             echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
         }
+    }
 }
 
     $DAO = new DAO($connexion);
@@ -748,7 +749,7 @@ class DAO {
     function jouer() {
         echo "jouer";
         $playChoice = trim(fgets(STDIN));
-        switch ($playChoice) :
+        switch ($playChoice) {
             case 1 :
                 break;
             case 2 :
@@ -762,6 +763,7 @@ class DAO {
                 // dé random (combat, enigme, marchands ou piege)
                 // evoluer()
                 // switch case 2 charger partie
+        }
     }
 
     function gestion($main_char) {
