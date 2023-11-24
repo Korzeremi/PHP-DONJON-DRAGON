@@ -677,16 +677,9 @@ class DAO {
         try {
             $row = $this->bdd->prepare("DROP FROM inventaire");
             $row->execute();
-<<<<<<< HEAD
-        } catch (PDOException $e) 
-        {
-            echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();   
+        } catch (PDOException $e) {
+            echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
         }
-=======
-        } catch (PDOException $e) {}
-        echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
->>>>>>> f0bf4fb07b7e99627c8330d2d9ee2975b7a6d54b
-    }
 }
 
     $DAO = new DAO($connexion);
@@ -742,13 +735,9 @@ class DAO {
                     $a = 1;
                     break;
                 default:
-<<<<<<< HEAD
                     echo "Choix impossible !\n";
                     break;
-=======
                     echo "Choix indisponible !\n";
-                    
->>>>>>> f0bf4fb07b7e99627c8330d2d9ee2975b7a6d54b
             }
         }
     }
