@@ -24,15 +24,6 @@ class Personnage {
         $this->inventaire = $inventaire;
     }
 
-    // BONNE IDEE , METTRE DES SETS A LA PLACE DES THIS, ET PAS METTRE L'XP A 0 MAIS XP TOTAL - XP DU NIVEAU D'AVANT
-
-    //On fait une fonction evoluer pour quand on change de salle on augmente de niveau, de puissance , etc
-    public function evoluer() {
-        $this->PA += 5;
-        $this->PD += 3;
-        $this->niveau++;
-        $this->XP = 0;
-    }
 //on fait tout les get et set de la classe pour pouvoir les appeller plus tard
     public function getNom() {
         return $this->nom;
@@ -631,8 +622,8 @@ class DAO {
 
     public function updatePerso($id, $personnage) {
         try {
-            $row = $this->bdd->prepare("UPDATE perso SET nom = ?, pv = ?, pa = ?, pd = ?, exp = ?, niveau = ?, evolution = ? WHERE id = ?");
-            $row->execute($personnage->getNom(),$personnage->getPV(),$personnage->getPA(),$personnage->getPD(),$personnage->getExperience(),$personnage->getNiveau(),$personnage->getEvolution(),[$id]);
+            $row = $this->bdd->prepare("UPDATE personnage SET nom = ?, pv = ?, pa = ?, pd = ?, exp = ?, niveau = ?, evolution = ? WHERE id = ?");
+            $row->execute([$personnage["nom"], $personnage["pv"], $personnage["pa"], $personnage["pd"], $personnage["exp"], $personnage["niveau"], $personnage["evolution"], $id]);
             return true;
         } catch (PDOException $e) {
             echo "Erreur lors de la modification du personnage " . $e->getMessage();
@@ -640,6 +631,17 @@ class DAO {
         }
     }
 
+    public function updateXP($id, $nouvelleXP) {
+        try {
+            $row = $this->bdd->prepare("UPDATE personnage SET exp = ? WHERE id = ?");
+            $row->execute([$nouvelleXP, $id]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour de l'expérience du personnage " . $e->getMessage();
+            return false;
+        }
+    }
+    
     public function updateSalle($id, $salle) {
         try {
             $row = $this->bdd->prepare("UPDATE salle SET type = ?, event = ?, expSalle = ?, monstre_id = ? WHERE id = ?");
@@ -740,7 +742,7 @@ class DAO {
                     jouer($salles);
                     break;
                 case 2:
-                    AfficherPersonnages($personnages);
+                    AfficherPersonnages($DAO);
                     break;
                 case 3:
                     VoirInventaire($DAO);
@@ -786,11 +788,14 @@ class DAO {
         }
     }
 
-    function AfficherPersonnages($personnages) {
+    function AfficherPersonnages($DAO) {
+        global $main_char;
+        $personnages = $DAO->getPerso();
         popen("clear", "w");
         popen("cls", "w");
         foreach ($personnages as $personnage) {
-            echo "Nom : " . $personnage["nom"] . "\n" .
+            echo "ID : " . $personnage["id"] . "\n" .
+                    "Nom : " . $personnage["nom"] . "\n" .
                     "PV : " . $personnage["pv"] . "\n" . 
                     "Puissance d'attaque : " . $personnage["pa"] . "\n" . 
                     "Defense : " . $personnage["pd"] . "\n" . 
@@ -799,9 +804,24 @@ class DAO {
                     sleep(1);
         }
         
-        echo "Appuie sur Entrer pour retourner au menu\n";
+        echo "Que souhaites-tu faire ?\n1 - Choisir un personnage\n2 - Quitter\n";
         echo "> ";
-        $pass = trim(fgets(STDIN));
+        $choice = trim(fgets(STDIN));
+        switch ($choice) {
+            case 1:
+                popen("cls", "w");
+                popen("clear", "w");
+                echo "Lequel souhaites-tu utiliser ?\n";
+                echo "> ";
+                $choice = trim(fgets(STDIN));
+                $main_char = $personnages[$choice - 1];
+                break;
+            case 2:
+                break;
+            default: 
+                echo "Choix impossible !";
+                break;
+        }
     }
 
     function CreationPersonnage($DAO) {
@@ -838,6 +858,7 @@ class DAO {
                     break;
                 default:
                     echo "Choix indisponible !\n";
+                    break;
             }
 
         $DAO->addPersonnage($personnage);
@@ -865,7 +886,7 @@ class DAO {
             $inventaire = $inventaires[$main_char["inventaire_id"] - 1];
             popen("cls", "w");
             popen("clear", "w");
-            echo "Ton inventaire :\n" .
+            echo $main_char["nom"] . " inventaire :\n" .
                  "\nObject 1 : " . $inventaire["obj1"] . 
                  "\nObject 2 : " . $inventaire["obj2"] . 
                  "\nObject 3 : " . $inventaire["obj3"] . 
@@ -884,6 +905,35 @@ class DAO {
         }
     }
 
-    menu($personnages, $salles,$DAO);
+    function gestionNiveau($main_char, $DAO) {
+        $niveauActuel = $main_char["niveau"];
+        $xpActuelle = $main_char["exp"];
+        $expNecessaire = 100 * $niveauActuel;
+    
+        if ($xpActuelle >= $expNecessaire) {
+            $nouveauNiveau = $niveauActuel + 1;
+    
+            $nouvelleXP = $xpActuelle - $expNecessaire;
+    
+            $main_char["niveau"] = $nouveauNiveau;
+            $main_char["exp"] = $nouvelleXP;
+
+            print_r($main_char);
+    
+            $DAO->updatePerso($main_char["id"], $main_char);
+    
+            echo $main_char["nom"] . " a atteint le niveau " . $nouveauNiveau . " !\n";
+        }
+    }
+
+    function gagnerXP($nouvelleXP, $DAO) {
+        global $main_char;
+        $nouvelleXP = max(0, $nouvelleXP);
+        $main_char["exp"] += $nouvelleXP;
+        $DAO->updateXP($main_char["id"], $main_char["exp"]);
+        return $main_char;
+    }
+
+    menu($personnages, $salles, $DAO);
 
 ?>
