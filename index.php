@@ -215,11 +215,10 @@ class Inventaire {
     private $obj8;
     private $obj9;
     private $obj10;
-    private $statut;
 
 
     //on creer son construct, getteur, setteur
-    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10,$statut) {
+    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10) {
         $this->obj1 = $obj1;
         $this->obj2 = $obj2;
         $this->obj3 = $obj3;
@@ -230,7 +229,6 @@ class Inventaire {
         $this->obj8 = $obj8;
         $this->obj9 = $obj9;
         $this->obj10 = $obj10;
-        $this->statut = $statut;
     }
 
     public function getObj1() {
@@ -273,10 +271,6 @@ class Inventaire {
     public function getObj10() {
         return $this->obj10;
     }
-
-    public function getStatut() {
-        return $this->statut;
-    }
     
     public function setObj1($obj1) {
         $this->obj1 = $obj1;
@@ -316,10 +310,6 @@ class Inventaire {
 
     public function set10($obj10) {
         $this->obj10 = $obj10;
-    }
-
-    public function setStatut($statut) {
-        $this->statut = $statut;
     }
 }
 //On declare ensuite la classe butin pour definir les 2 type de butin que l'on peux avoir 
@@ -480,7 +470,29 @@ class DAO {
                 $personnage->getXP(),
                 $personnage->getNiveau(),
                 $personnage->getEvolution(),
-                $personnage->getInventaire()            
+                $personnage->getInventaire()
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'ajout du joueur: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function addInventaire($inventaire) {
+        try {
+            $row = $this->bdd->prepare("INSERT INTO inventaire (obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9, obj10) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $row->execute([
+                $inventaire->getObj1(),
+                $inventaire->getObj2(),
+                $inventaire->getObj3(),
+                $inventaire->getObj4(),
+                $inventaire->getObj5(),
+                $inventaire->getObj6(),
+                $inventaire->getObj7(),
+                $inventaire->getObj8(),          
+                $inventaire->getObj9(),          
+                $inventaire->getObj10()          
             ]);
             return true;
         } catch (PDOException $e) {
@@ -503,8 +515,8 @@ class DAO {
         }
     }
 
-    // getInventoryById
-    public function getInventory () {
+    // TOUS LES INVENTAIRES
+    public function getInventaire () {
         try {
             $row = $this->bdd->prepare("SELECT * FROM inventaire");
             $row->execute();
@@ -782,25 +794,35 @@ class DAO {
             popen("cls", "w");
             echo "Comment souhaites-tu que ton personnage soit orienté ?\n1 - Axé Attaque\n2 - Axé Point de vie\n3 - Axé Défense\n4 - Quitter\n";
             echo "> ";
+            $inventaire = new Inventaire(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+            $DAO->addInventaire($inventaire);
+            $inventaires = $DAO->getInventaire();
+            $inventaire = $inventaires[count($inventaires)-1];
             $choice = trim(fgets(STDIN));
+            if ($choice < 1 || $choice > 3) {
+                echo "Choix impossible !";
+                sleep(1);
+                return;
+            }
             switch ($choice) {
                 case 1:
-                    $personnage = new Personnage($nom, 50, 20, 15, 0, NULL);
+                    $personnage = new Personnage($nom, 50, 20, 15, 0, $inventaire["id"]);
                     break;
                 case 2:
-                    $personnage = new Personnage($nom, 150, 7, 20, 0, NULL);
+                    $personnage = new Personnage($nom, 150, 7, 20, 0, $inventaire["id"]);
                     break;
                 case 3:
-                    $personnage = new Personnage($nom, 80, 8, 40, 0, NULL);
+                    $personnage = new Personnage($nom, 80, 8, 40, 0, $inventaire["id"]);
                     break;
                 case 4:
                     break;
                 default:
                     echo "Choix indisponible !\n";
-
             }
 
         $DAO->addPersonnage($personnage);
+        $personnages = $DAO->getPerso();
+        $personnage = $personnages[count($personnages) - 1];
         $main_char = $personnage;
         popen("clear", "w");
         popen("cls", "w");
@@ -814,13 +836,13 @@ class DAO {
             echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
             sleep(1);
             return;
-        } else if (gettype($main_char) != 'object') {
+        } else if (gettype($main_char) != 'array') {
             echo "Choix impossible !";
             sleep(1);
             return;
         } else {
             echo "JE T'AFFICHE CA CHAMPION !\n\n";
-            print_r($main_char);
+            echo "Ton inventaire est : \n" . $main_char["inventaire_id"];
             trim(fgets(STDIN));
         }
     }
