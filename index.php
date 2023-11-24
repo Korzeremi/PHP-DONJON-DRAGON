@@ -751,6 +751,7 @@ class DAO {
 
     function jouer() {
         $test = []; // array taille niveau du joeuur qui genere autant de salle que de niveau du joueur
+        
     }
 
     function AfficherPersonnages($personnages) {
