@@ -336,14 +336,12 @@ class Objet {
     private $nom;
     private $type;
     private $arme;
-    private $statut;
     private $malediction;
     private $value;
 
     public function __construct($nom, $type, $statut, $arme, $malediction, $value) {
         $this->nom = $nom;
         $this->type = $type;
-        $this->statut = $statut;
         $this->arme = $arme;
         $this->malediction = $malediction;
         $this->value = $value;
@@ -365,20 +363,12 @@ class Objet {
         return $this->arme;
     }
 
-    public function getStatut() {
-        return $this->statut;
-    }
-
     public function getValue() {
         return $this->value;
     }
     
     public function setNom($nom) {
         $this->nom = $nom;
-    }
-
-    public function setStatut($statut) {
-        $this->statut = $statut;
     }
 
     public function setArme($arme) {
@@ -652,6 +642,17 @@ class DAO {
             return false;
         }
     }
+
+    public function updatePV($id, $nouveauxPV) {
+        try {
+            $row = $this->bdd->prepare("UPDATE perso SET pv = ? WHERE id = ?");
+            $row->execute([$nouveauxPV, $id]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour des points de vie du personnage " . $e->getMessage();
+            return false;
+        }
+    }    
     
     public function updateSalle($id, $salle) {
         try {
@@ -731,10 +732,10 @@ class DAO {
     // $butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
     // print_r($butin);
 
-    $salle_special = new Salle_speciale(1, 0, 3, 4);
+    // $salle_special = new Salle_speciale(1, 0, 3, 4);
     // print_r($salle_special);
 
-    $inventaires = new Inventaire(1,1,1,1,1,1,1,1,1,1,1);
+    // $inventaires = new Inventaire(1,1,1,1,1,1,1,1,1,1,1);
 
     function Menu($personnages, $salles,$DAO) {
         global $main_char;
@@ -750,7 +751,7 @@ class DAO {
             $choice =  trim(fgets(STDIN));
             switch ($choice) {
                 case 1:
-                    jouer($salles,$DAO);
+                    jouer($salles, $DAO);
                     break;
                 case 2:
                     AfficherPersonnages($DAO);
@@ -774,8 +775,7 @@ class DAO {
             }
         }
     }
-
-    function jouer($salles,$DAO) {
+    function jouer($salles, $DAO) {
         global $main_char;
         $donjon = [];
         $monstreAll = $DAO->getMonstre();
@@ -820,7 +820,21 @@ class DAO {
                     }
                     break;
                 case 2:
-                    // piege
+                    popen("clear", "w");
+                    popen("cls", "w");
+                    $pieges = $DAO->getPiege();
+                    $random_piege = rand(1, count($pieges));
+                    $piege = $pieges[$random_piege];
+                    $main_char["pv"] -= $piege['value'];
+                    echo $piege["phrase"] . "\n" . $main_char["nom"] . " a pris " .
+                         $piege["value"] . "dégats !";
+
+                    if ($main_char["pv"] > 0) {
+                        gagnerXP($room["expSalle"], $DAO);
+                        gestionNiveau($DAO);
+                    } else {
+                        break;
+                    }
                     break;
                 case 3:
                     echo "Bienvenue chez le marchand !\n";
@@ -830,11 +844,29 @@ class DAO {
                         $rand = rand(1,10);
                         array_push($marchandObj, $objets[$rand]);
                         echo "Objet N°" . $marchandObj[$i]['id'] . " : " . $marchandObj[$i]['nom'] . " valeur : " . $marchandObj[$i]['value'];
-                    }
-                    
+                    }                    
+                    sleep(1);
                     break;
                 case 4:
-                    // enigme
+                    popen("clear", "w");
+                    popen("cls", "w");
+                    $enigmes = $DAO->getEnigma();
+                    $random_enigme = rand(1, count($enigmes));
+                    $enigme = $enigmes[$random_enigme];
+                    echo $enigme["question"] . "\n\nReponse : ";
+                    $reponse = trim(fgets(STDIN));
+
+                    if($reponse == $enigme["reponse"]) {
+                        gagnerXP($room["expSalle"], $DAO);
+                        gestionNiveau($DAO);
+                        echo "Bien joué, tu as la bonne reponse !";
+                        sleep(1);
+                    } else {
+                        echo "Raté, ce n'est pas la bonne réponse !";
+                        sleep(1);
+                    }
+                    break;
+                default:
                     break;
             }
         }
@@ -847,13 +879,13 @@ class DAO {
         popen("cls", "w");
         foreach ($personnages as $personnage) {
             echo "ID : " . $personnage["id"] . "\n" .
-                    "Nom : " . $personnage["nom"] . "\n" .
-                    "PV : " . $personnage["pv"] . "\n" . 
-                    "Puissance d'attaque : " . $personnage["pa"] . "\n" . 
-                    "Defense : " . $personnage["pd"] . "\n" . 
-                    "XP : " . $personnage["exp"] . "\n" . 
-                    "Niveau : " . $personnage["niveau"] . "\n\n";
-                    sleep(1);
+                "Nom : " . $personnage["nom"] . "\n" .
+                "PV : " . $personnage["pv"] . "\n" . 
+                "Puissance d'attaque : " . $personnage["pa"] . "\n" . 
+                "Defense : " . $personnage["pd"] . "\n" . 
+                "XP : " . $personnage["exp"] . "\n" . 
+                "Niveau : " . $personnage["niveau"] . "\n\n";
+                sleep(1);
         }
         
         echo "Que souhaites-tu faire ?\n1 - Choisir un personnage\n2 - Quitter\n";
@@ -981,6 +1013,16 @@ class DAO {
         $DAO->updateXP($main_char["id"], $main_char["exp"]);
         return $main_char;
     }
+
+    function prendreDegats($degats, $DAO) {
+        global $main_char;
+        $degats = max(0, $degats);
+        $main_char["pv"] -= $degats;
+        $main_char["pv"] = max(0, $main_char["pv"]);
+        $DAO->updatePV($main_char["id"], $main_char["pv"]);
+        return $main_char;
+    }
+    
 
     menu($personnages, $salles, $DAO);
 
