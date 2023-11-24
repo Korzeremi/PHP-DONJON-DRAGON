@@ -576,6 +576,17 @@ class DAO {
         }
     }
 
+    public function getSalleLength() {
+        try {
+            $row = $this->bdd->prepare("SELECT COUNT(*) AS fb FROM salle");
+            $row->execute();
+            return $row->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération de la longueur " . $e->getMessage();
+            return [];
+        }
+    }
+
     public function getMonstre() {
         try {
             $row = $this->bdd->prepare("SELECT * FROM monstre");
@@ -768,8 +779,10 @@ class DAO {
         global $main_char;
         $donjon = [];
         $monstreAll = $DAO->getMonstre();
-        for ($i = 1; $i <= $main_char['id']; $i++) {
-            $random_room_id = rand(1, 10); 
+        $length = $DAO->getSalleLength();
+        $fLength = intval($length);
+        for ($i = 1; $i <= $main_char['niveau']; $i++) {
+            $random_room_id = rand(1, $fLength); 
             $room = $salles[$random_room_id - 1];
             array_push($donjon, $room);
             switch ($room['event']) {
@@ -810,7 +823,15 @@ class DAO {
                     // piege
                     break;
                 case 3:
-                    // marchand
+                    echo "Bienvenue chez le marchand !\n";
+                    $objets = $DAO->getObjet();
+                    $marchandObj = [];
+                    for ($i = 1; $i < 4; $i++) {
+                        $rand = rand(1,10);
+                        array_push($marchandObj, $objets[$rand]);
+                        echo "Objet N°" . $marchandObj[$i]['id'] . " : " . $marchandObj[$i]['nom'] . " valeur : " . $marchandObj[$i]['value'];
+                    }
+                    
                     break;
                 case 4:
                     // enigme
