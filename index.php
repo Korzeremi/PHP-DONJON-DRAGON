@@ -777,14 +777,28 @@ class DAO {
     }
     function jouer($salles, $DAO) {
         global $main_char;
+        if ($main_char == '') {
+            popen("cls", "w");
+            popen("clear", "w");
+            echo "Il faut choisir un personnage !";
+            sleep(1);
+            return;
+        }
         $donjon = [];
         $monstreAll = $DAO->getMonstre();
-        $length = $DAO->getSalleLength();
-        $fLength = intval($length);
-        for ($i = 1; $i <= $main_char['niveau']; $i++) {
-            $random_room_id = rand(1, $fLength); 
+        for ($i = 1; $i <= $main_char['id']; $i++) {
+            if (count($salles) == 0) {
+                popen("cls", "w");
+                popen("clear", "w");
+                echo "Il n'y a pas de salles disponible !";
+                sleep(1);
+                return;
+            }
+            $random_room_id = rand(1, count($salles)); 
             $room = $salles[$random_room_id - 1];
             array_push($donjon, $room);
+            print_r($donjon);
+            readline();
             switch ($room['event']) {
                 case 1:
                     $monstre = $monstreAll[$room['monstre_id' - 1]];
