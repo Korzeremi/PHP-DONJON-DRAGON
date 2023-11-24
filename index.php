@@ -359,12 +359,7 @@ class Objet {
     private $malediction;
     private $value;
 
-<<<<<<< HEAD
     public function __construct($nom, $type, $statut, $arme, $malediction, $value) {
-=======
-    //On creer le construct et ses guetteurs et setteurs
-    public function __construct($nom, $type, $malediction, $value) {
->>>>>>> f0bf4fb07b7e99627c8330d2d9ee2975b7a6d54b
         $this->nom = $nom;
         $this->type = $type;
         $this->statut = $statut;
