@@ -638,7 +638,7 @@ class DAO {
         try {
             $row = $this->bdd->prepare("DROP FROM inventaire");
             $row->execute();
-        } catch (PDOException $e) |
+        } catch (PDOException $e) {}
         echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
     }
 }
