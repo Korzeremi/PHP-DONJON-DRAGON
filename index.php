@@ -741,44 +741,13 @@ class DAO {
                 default:
                     echo "Choix impossible !\n";
                     break;
-                    echo "Choix indisponible !\n";
             }
         }
     }
 
     function jouer() {
-        echo "jouer";
-        $playChoice = trim(fgets(STDIN));
-        switch ($playChoice) {
-            case 1 :
-                break;
-            case 2 :
-                break;
-            default :
-                break;
-                // jouer 
-                // switch case 1 nouvelle partie
-                // créer un perso
-                // recup les data (premier monstre, niveau, arme)
-                // dé random (combat, enigme, marchands ou piege)
-                // evoluer()
-                // switch case 2 charger partie
-        }
-    }
-
-    function gestion($main_char) {
-        // gestion BDD
-        if ($main_char === "") {
-            echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
-            sleep(1);
-            return;
-        } else if (gettype($main_char) != 'string') {
-            echo "Choix impossible !";
-            sleep(1);
-            return;
-        } else {
-            echo "JE T'AFFICHE CA CHAMPION !";
-        }
+        $test = []; // array taille niveau du joeuur qui genere autant de salle que de niveau du joueur
+            
     }
 
     function AfficherPersonnages($personnages) {
@@ -793,16 +762,19 @@ class DAO {
                     sleep(1);
         }
         echo "Appuie sur Entrer pour retourner au menu\n";
-        readline("> ");
+        echo "> ";
+        $pass = trim(fgets(STDIN));
     }
 
     function CreationPersonnage($DAO) {
         popen("cls", "w");
             echo "Quel nom souhaites-tu donner ?\n";
-            $nom = readline("> ");
+            echo "> ";
+            $nom = trim(fgets(STDIN));
             popen("cls", "w");
             echo "Comment souhaites-tu que ton personnage soit orienté ?\n1 - Axé Attaque\n2 - Axé Point de vie\n3 - Axé Défense\n4 - Quitter\n";
-            $choice = readline("> ");
+            echo "> ";
+            $choice = trim(fgets(STDIN));
             switch ($choice) {
                 case 1:
                     $personnage = new Personnage($nom, 50, 20, 15, 0, NULL);
