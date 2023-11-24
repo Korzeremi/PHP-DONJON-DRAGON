@@ -631,6 +631,17 @@ class DAO {
         }
     }
 
+    public function updateXP($id, $nouvelleXP) {
+        try {
+            $row = $this->bdd->prepare("UPDATE personnage SET exp = ? WHERE id = ?");
+            $row->execute([$nouvelleXP, $id]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour de l'expérience du personnage " . $e->getMessage();
+            return false;
+        }
+    }
+    
     public function updateSalle($id, $salle) {
         try {
             $row = $this->bdd->prepare("UPDATE salle SET type = ?, event = ?, expSalle = ?, monstre_id = ? WHERE id = ?");
@@ -937,6 +948,14 @@ class DAO {
     
             echo $main_char["nom"] . " a atteint le niveau " . $nouveauNiveau . " !\n";
         }
+    }
+
+    function gagnerXP($nouvelleXP, $DAO) {
+        global $main_char;
+        $nouvelleXP = max(0, $nouvelleXP);
+        $main_char["exp"] += $nouvelleXP;
+        $DAO->updateXP($main_char["id"], $main_char["exp"]);
+        return $main_char;
     }
 
     menu($personnages, $salles, $DAO);
