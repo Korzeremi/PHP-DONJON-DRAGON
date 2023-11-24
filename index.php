@@ -210,7 +210,7 @@ class Inventaire {
     private $obj10;
     private $statut;
 
-    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10) {
+    public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10,$statut) {
         $this->obj1 = $obj1;
         $this->obj2 = $obj2;
         $this->obj3 = $obj3;
@@ -264,6 +264,10 @@ class Inventaire {
     public function getObj10() {
         return $this->obj10;
     }
+
+    public function getStatut() {
+        return $this->statut;
+    }
     
     public function setObj1($obj1) {
         $this->obj1 = $obj1;
@@ -303,6 +307,10 @@ class Inventaire {
 
     public function set10($obj10) {
         $this->obj10 = $obj10;
+    }
+
+    public function setStatut($statut) {
+        $this->statut = $statut;
     }
 }
 
