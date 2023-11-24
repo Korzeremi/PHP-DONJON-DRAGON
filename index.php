@@ -469,6 +469,7 @@ class DAO {
         }
     }
 
+    // getInventoryById
     public function getInventory () {
         try {
             $row = $this->bdd->prepare("SELECT * FROM inventaire");
@@ -622,6 +623,23 @@ class DAO {
         } catch (PDOException $e) {
             echo "Erreur lors de la modification de l'inventaire " . $e->getMessage();
         }
+    }
+
+    public function removePersoById($id, $personnage) {
+        try {
+            $row = $this->bdd->prepare("DROP FROM personnage WHERE id = ?");
+            $row->execute([$id]);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la suppression du personnage " . $e->getMessage();
+        }
+    }
+
+    public function removeInventaire() {
+        try {
+            $row = $this->bdd->prepare("DROP FROM inventaire");
+            $row->execute();
+        } catch (PDOException $e) |
+        echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
     }
 }
 
