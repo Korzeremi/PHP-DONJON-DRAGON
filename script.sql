@@ -126,7 +126,3 @@ VALUES
 (qu es ce qui dois etre casser avant qu on lutilise ?, un oeuf ),
 ( 1+1 ?, 2 ),
 ( 3*3?, 9 );
-
->>>>>>> f1075f8e3373d6e687825a3bfd7ed78edd682926
-
-
