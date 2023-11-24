@@ -680,6 +680,7 @@ class DAO {
 
     $DAO = new DAO($connexion);
     $personnages = $DAO->getPerso();
+    $salles = $DAO->getSalle();
 
     // $objet = new Objet("epee", 1, 0, 10);
     // $DAO->addObject($objet);
@@ -749,9 +750,28 @@ class DAO {
         }
     }
 
-    function jouer() {
-        $test = []; // array taille niveau du joeuur qui genere autant de salle que de niveau du joueur
-        
+    function jouer($salles) {
+        global $main_char;
+        $donjon = [];
+        for ($i = 1; $i <= $main_char["id"]; $i++) {
+            $random_room_id = rand(1, 10); 
+            $room = $salles[$random_room_id - 1];
+            array_push($donjon, $room);
+            switch ($room["event"]) {
+                case 1:
+                    // combat
+                    break;
+                case 2:
+                    // piege
+                    break;
+                case 3:
+                    // marchand
+                    break;
+                case 4:
+                    // enigme
+                    break;
+            }
+        }
     }
 
     function AfficherPersonnages($personnages) {
