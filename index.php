@@ -1,7 +1,7 @@
 <?php
 //On inclus la page config.php pour la relation avec la base de donnée
 include 'config.php';
-// On viens creer plusieurs classes (ici la classe personnage)
+// On viens declarer plusieurs classes (ici la classe personnage)
 class Personnage {
     //On annonce ses variables
     private $nom;
@@ -12,7 +12,7 @@ class Personnage {
     private $niveau;
     private $evolution;
     private $inventaire;
-//on fait le construct
+//on fait le construct 
     public function __construct($nom, $PV, $PD, $PA, $XP, $inventaire) {
         $this->nom = $nom;
         $this->PV = $PV;
@@ -25,13 +25,15 @@ class Personnage {
     }
 
     // BONNE IDEE , METTRE DES SETS A LA PLACE DES THIS, ET PAS METTRE L'XP A 0 MAIS XP TOTAL - XP DU NIVEAU D'AVANT
+
+    //On fait une fonction evoluer pour quand on change de salle on augmente de niveau, de puissance , etc
     public function evoluer() {
         $this->PA += 5;
         $this->PD += 3;
         $this->niveau++;
         $this->XP = 0;
     }
-
+//on fait tout les get et set de la classe pour pouvoir les appeller plus tard
     public function getNom() {
         return $this->nom;
     }
@@ -59,9 +61,6 @@ class Personnage {
     }
     public function getNiveau() {
         return $this->niveau;
-    }
-    public function affronterMonstre($monstre) {
-        echo $this->nom . " affrontez le monstre " . $monstre->getNom() . " !<br>";
     }
 
 
@@ -96,15 +95,19 @@ class Personnage {
     public function setInventaire($inventaire) {
         $this->inventaire = $inventaire;
     }
+// la fonction affronterMonstre est créée pour engager le combat
+    public function affronterMonstre($monstre) {
+        echo $this->nom . " affrontez le monstre " . $monstre->getNom() . " !<br>";
+    }
 
 }   
-
+//On declare ensuite la classe monstre qui a les variables "de base" de la classe personnage
 class Monstre {
     private $nom;
     private $PV;
     private $PA;
     private $PD;
-
+//On fait son construct et les get et set
     public function __construct($nom, $PV, $PA, $PD) {
         $this->nom = $nom;
         $this->PV = $PV;
@@ -144,12 +147,14 @@ class Monstre {
         $this->PD = $PD;
     }
 }
-
+//on declare la classe salle 
 class Salle {
     private $type;
     private $event;
     private $experience;
     private $monstre;
+
+    //On creer aussi le construct, les get, et set
     public function __construct($type, $event, $experience, $monstre) {
         $this->type = $type;
         $this->event = $event;
@@ -190,13 +195,15 @@ class Salle {
     }
 
 }
-
+//On viens declare la salle_speciale qui est une classe salle ou on retouvera le troqueur ou des monstres speciaux
 class Salle_speciale extends Salle {
     public function __construct($type, $event, $experience, $monstre) {
         parent::__construct($type, $event, $experience, $monstre);
     }
 }
 
+//on declare la classe inventaire ou on qui sera constituer de slots pour deposer ses objets
+//ainsi que le statut pour savoir si il est vide ou plein
 class Inventaire {
     private $obj1;
     private $obj2;
@@ -210,6 +217,8 @@ class Inventaire {
     private $obj10;
     private $statut;
 
+
+    //on creer son construct, getteur, setteur
     public function __construct($obj1,$obj2,$obj3,$obj4,$obj5,$obj6,$obj7,$obj8,$obj9,$obj10,$statut) {
         $this->obj1 = $obj1;
         $this->obj2 = $obj2;
@@ -313,10 +322,12 @@ class Inventaire {
         $this->statut = $statut;
     }
 }
-
+//On declare ensuite la classe butin pour definir les 2 type de butin que l'on peux avoir 
 class Butin {
     private $butin_classique;
     private $butin_special;
+
+    //on fait son construct, ses guetteurs et setteurs 
     public function __construct() {
         $this->butin_classique = array();
         $this->butin_special = array();
@@ -339,6 +350,7 @@ class Butin {
     }
 }
 
+//on declare la classe objet
 class Objet {
     private $nom;
     private $type;
@@ -347,7 +359,12 @@ class Objet {
     private $malediction;
     private $value;
 
+<<<<<<< HEAD
     public function __construct($nom, $type, $statut, $arme, $malediction, $value) {
+=======
+    //On creer le construct et ses guetteurs et setteurs
+    public function __construct($nom, $type, $malediction, $value) {
+>>>>>>> f0bf4fb07b7e99627c8330d2d9ee2975b7a6d54b
         $this->nom = $nom;
         $this->type = $type;
         $this->statut = $statut;
@@ -660,10 +677,15 @@ class DAO {
         try {
             $row = $this->bdd->prepare("DROP FROM inventaire");
             $row->execute();
+<<<<<<< HEAD
         } catch (PDOException $e) 
         {
             echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();   
         }
+=======
+        } catch (PDOException $e) {}
+        echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
+>>>>>>> f0bf4fb07b7e99627c8330d2d9ee2975b7a6d54b
     }
 }
 
@@ -720,8 +742,13 @@ class DAO {
                     $a = 1;
                     break;
                 default:
+<<<<<<< HEAD
                     echo "Choix impossible !\n";
                     break;
+=======
+                    echo "Choix indisponible !\n";
+                    
+>>>>>>> f0bf4fb07b7e99627c8330d2d9ee2975b7a6d54b
             }
         }
     }
