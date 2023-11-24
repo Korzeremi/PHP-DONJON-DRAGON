@@ -701,8 +701,8 @@ class DAO {
     // $DAO->addMonstre($monstre);
 
     $butin = new Butin();
-    $butin->setButinClassique(["epee", "gants", "casque"]);
-    $butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
+    // $butin->setButinClassique(["epee", "gants", "casque"]);
+    // $butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
     // print_r($butin);
 
     $salle_special = new Salle_speciale(1, 0, 3, 4);
@@ -720,6 +720,7 @@ class DAO {
             echo "Bienvenue dans Donjon & Dragon !\n\n";
             sleep(1);
             echo "Que souhaites-tu faire ?\n1 - Jouer\n2 - Afficher tous les personnages\n3 - Voir l'inventaire\n4 - Création de personnage\n5 - Sauvegarde\n6 - Quitter\n";
+            echo "> ";
             $choice =  trim(fgets(STDIN));
             switch ($choice) {
                 case 1:
@@ -750,6 +751,7 @@ class DAO {
 
     function jouer() {
         echo "jouer";
+        echo "> ";
         $playChoice = trim(fgets(STDIN));
         switch ($playChoice) {
             case 1 :
@@ -780,19 +782,22 @@ class DAO {
                     "Niveau : " . $personnage["niveau"] . "\n\n";
                     sleep(1);
         }
+        
         echo "Appuie sur Entrer pour retourner au menu\n";
-        readline("> ");
+        trim(fgets(STDIN));;
     }
 
     function CreationPersonnage($DAO) {
         popen("clear", "w");
         popen("cls", "w");
         echo "Quel nom souhaites-tu donner ?\n";
-        $nom = readline("> ");
+        echo "> ";
+        $nom = trim(fgets(STDIN));;
         popen("clear", "w");
         popen("cls", "w");
         echo "Comment souhaites-tu que ton personnage soit orienté ?\n1 - Axé Attaque\n2 - Axé Point de vie\n3 - Axé Défense\n4 - Quitter\n";
-        $choice = readline("> ");
+        echo "> ";
+        $choice = trim(fgets(STDIN));;
         switch ($choice) {
             case 1:
                 $personnage = new Personnage($nom, 50, 20, 15, 0, NULL);
