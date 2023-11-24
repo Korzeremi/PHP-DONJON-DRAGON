@@ -60,6 +60,7 @@ CREATE TABLE objet (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(80),
     type BOOLEAN,
+    arme BOOLEAN,
     malediction BOOLEAN,
     statut BOOLEAN,
     value INT

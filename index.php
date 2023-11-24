@@ -342,11 +342,16 @@ class Butin {
 class Objet {
     private $nom;
     private $type;
+    private $arme;
+    private $statut;
     private $malediction;
     private $value;
-    public function __construct($nom, $type, $malediction, $value) {
+
+    public function __construct($nom, $type, $statut, $arme, $malediction, $value) {
         $this->nom = $nom;
         $this->type = $type;
+        $this->statut = $statut;
+        $this->arme = $arme;
         $this->malediction = $malediction;
         $this->value = $value;
     }
@@ -363,23 +368,40 @@ class Objet {
         return $this->malediction;
     }
 
+    public function getArme() {
+        return $this->arme;
+    }
+
+    public function getStatut() {
+        return $this->statut;
+    }
+
     public function getValue() {
         return $this->value;
     }
+    
     public function setNom($nom) {
         $this->nom = $nom;
     }
 
+    public function setStatut($statut) {
+        $this->statut = $statut;
+    }
+
+    public function setArme($arme) {
+        $this->arme = $arme;
+    }
+
     public function setType($type) {
-        $this->PV = $type;
+        $this->type = $type;
     }
 
     public function setMalediction($malediction) {
-        $this->PA = $malediction;
+        $this->malediction = $malediction;
     }
 
     public function setValue($value) {
-        $this->PD = $value;
+        $this->value = $value;
     }
 }
 
@@ -392,7 +414,7 @@ class DAO {
     public function addObject($objet)
     {
         try {
-            $requete = $this->bdd->prepare("INSERT INTO objet (nom, type, malediction, value) VALUES (?, ?, ?, ?)");
+            $requete = $this->bdd->prepare("INSERT INTO objet (nom, type, arme, malediction, statut, value) VALUES (?, ?, ?, ?, ?, ?)");
             $requete->execute([$objet->getNom(), 
                                $objet->getType(), 
                                $objet->getMalediction(), 
@@ -638,122 +660,106 @@ class DAO {
         try {
             $row = $this->bdd->prepare("DROP FROM inventaire");
             $row->execute();
-        } catch (PDOException $e) |
-        echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();
+        } catch (PDOException $e) 
+        {
+            echo "Erreur lors de la suppression de l'inventaire " . $e->getMessage();   
+        }
     }
 }
 
-$DAO = new DAO($connexion);
-$personnages = $DAO->getPerso();
+    $DAO = new DAO($connexion);
+    $personnages = $DAO->getPerso();
 
-// $objet = new Objet("epee", 1, 0, 10);
-// $DAO->addObject($objet);
-// $objet = new Objet("gants", 1, 0, 13);
-// $DAO->addObject($objet);
-// $objet = new Objet("casque", 0, 1, 20);
-// $DAO->addObject($objet);
+    // $objet = new Objet("epee", 1, 0, 10);
+    // $DAO->addObject($objet);
+    // $objet = new Objet("gants", 1, 0, 13);
+    // $DAO->addObject($objet);
+    // $objet = new Objet("casque", 0, 1, 20);
+    // $DAO->addObject($objet);
 
-// $personnage = new Personnage("Raph", 200, 50, 40, 125, NULL);
-// $DAO->addPersonnage($personnage);
-// print_r($personnage);
+    // $personnage = new Personnage("Raph", 200, 50, 40, 125, NULL);
+    // $DAO->addPersonnage($personnage);
+    // print_r($personnage);
 
-// $salle = new Salle(0, 0, 1, 1);
-// $DAO->addSalle($salle);
+    // $salle = new Salle(0, 0, 1, 1);
+    // $DAO->addSalle($salle);
 
-// $monstre = new Monstre("Mechant 1", 50, 40, 200);
-// $DAO->addMonstre($monstre);
-// $monstre = new Monstre("Mechant 2", 50, 40, 180);
-// $DAO->addMonstre($monstre);
+    // $monstre = new Monstre("Mechant 1", 50, 40, 200);
+    // $DAO->addMonstre($monstre);
+    // $monstre = new Monstre("Mechant 2", 50, 40, 180);
+    // $DAO->addMonstre($monstre);
 
-$butin = new Butin();
-$butin->setButinClassique(["epee", "gants", "casque"]);
-$butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
-// print_r($butin);
+    $butin = new Butin();
+    $butin->setButinClassique(["epee", "gants", "casque"]);
+    $butin->setButinSpecial(["grosse epee", "gants metal", "casque metal"]);
+    // print_r($butin);
 
-$salle_special = new Salle_speciale(1, 0, 3, 4);
-// print_r($salle_special);
+    $salle_special = new Salle_speciale(1, 0, 3, 4);
+    // print_r($salle_special);
 
-$inventaires = new Inventaire();
+    $inventaires = new Inventaire(1,1,1,1,1,1,1,1,1,1,1);
 
-$a = 0;
-$main_char = "";
-
-while ($a === 0) {
-    popen("cls", "w");
-    echo "Bienvenue dans Donjon & Dragon !\n\n";
-    sleep(1);
-    echo "Que souhaites-tu faire ?\n1 - Jouer\n2 - Voir l'inventaire\n3 - Voir les personnages\n4 - Créer un personnage\n5 - Récuperer une sauvegarde\n6 - Quitter\n";
-    $choice = readline("> ");
-    switch ($choice) {
-        case 1:
-            echo "Jouer";
-            readline("> ");
-            break;
-        case 2:
-            if ($main_char === "") {
-                echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
-                sleep(1);
-                return;
-            } else if (gettype($main_char) != 'string') {
-                echo "Choix impossible !";
-                sleep(1);
-                return;
-            } else {
-                echo "JE T'AFFICHE CA CHAMPION !";
-            }
-            break;
-        case 3:
-            popen("cls", "w");
-            foreach ($personnages as $personnage) {
-                echo "Nom : " . $personnage["nom"] . "\n" .
-                     "PV : " . $personnage["pv"] . "\n" . 
-                     "Puissance d'attaque : " . $personnage["pa"] . "\n" . 
-                     "Defense : " . $personnage["pd"] . "\n" . 
-                     "XP : " . $personnage["exp"] . "\n" . 
-                     "Niveau : " . $personnage["niveau"] . "\n\n";
-                     sleep(1);
-            }
-            echo "Appuie sur Entrer pour retourner au menu\n";
-            readline("> ");
-            break;
-        case 4:
-            popen("cls", "w");
-            echo "Quel nom souhaites-tu donner ?\n";
-            $nom = readline("> ");
-            popen("cls", "w");
-            echo "Comment souhaites-tu que ton personnage soit orienté ?\n1 - Axé Attaque\n2 - Axé Point de vie\n3 - Axé Défense\n4 - Quitter\n";
-            $choice = readline("> ");
+    function Menu() {
+        $a = 0;
+        $main_char = "";
+        while ($a === 0) {
+            popen("clear", "w");
+            echo "Bienvenue dans Donjon & Dragon !\n\n";
+            sleep(1);
+            echo "Que souhaites-tu faire ?\n1 - Jouer\n2 - Sauvegarde\n4 - Quitter\n";
+            $choice =  trim(fgets(STDIN));
             switch ($choice) {
                 case 1:
-                    $personnage = new Personnage($nom, 50, 20, 15, 0, NULL);
+                    jouer();
                     break;
                 case 2:
-                    $personnage = new Personnage($nom, 150, 7, 20, 0, NULL);
-                    break;
-                case 3:
-                    $personnage = new Personnage($nom, 80, 8, 40, 0, NULL);
+                    echo "Récuperation la sauvegarde...";
+                    sleep(1);
                     break;
                 case 4:
+                    $a = 1;
                     break;
                 default:
-                    echo "Choix indisponible !\n";
-
+                    echo "Choix impossible !\n";
+                    break;
             }
-            $DAO->addPersonnage($personnage);
-            popen("cls", "w");
-            echo "Création du personnage...";
-            sleep(1);
-            break;
-        case 5:
-            echo "Récuperation la sauvegarde...";
-            sleep(1);
-            break;
-        case 6:
-            $a = 1;
-            break;
-        default:
-            echo "Choix impossible !\n";
-            break;
+        }
     }
-}
+
+    function jouer() {
+        echo "jouer";
+        $playChoice = trim(fgets(STDIN));
+        switch ($playChoice) :
+            case 1 :
+                break;
+            case 2 :
+                break;
+            default :
+                break;
+                // jouer 
+                // switch case 1 nouvelle partie
+                // créer un perso
+                // recup les data (premier monstre, niveau, arme)
+                // dé random (combat, enigme, marchands ou piege)
+                // evoluer()
+                // switch case 2 charger partie
+    }
+
+    function gestion() {
+                    // gestion BDD
+                    if ($main_char === "") {
+                        echo "Tu dois choisir un personnage pour pouvoir voir l'inventaire";
+                        sleep(1);
+                        return;
+                    } else if (gettype($main_char) != 'string') {
+                        echo "Choix impossible !";
+                        sleep(1);
+                        return;
+                    } else {
+                        echo "JE T'AFFICHE CA CHAMPION !";
+                    }
+    }
+
+    menu();
+
 ?>
