@@ -751,7 +751,7 @@ while ($a === 0) {
                     break;
                 default:
                     echo "Choix indisponible !\n";
-
+                    
             }
             $DAO->addPersonnage($personnage);
             popen("cls", "w");
