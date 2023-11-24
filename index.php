@@ -723,7 +723,7 @@ class DAO {
 
     $inventaires = new Inventaire(1,1,1,1,1,1,1,1,1,1,1);
 
-    function Menu($personnages, $DAO) {
+    function Menu($personnages, $salles,$DAO) {
         global $main_char;
         $a = 0;
         $main_char = "";
@@ -737,7 +737,7 @@ class DAO {
             $choice =  trim(fgets(STDIN));
             switch ($choice) {
                 case 1:
-                    jouer();
+                    jouer($salles);
                     break;
                 case 2:
                     AfficherPersonnages($personnages);
@@ -765,11 +765,11 @@ class DAO {
     function jouer($salles) {
         global $main_char;
         $donjon = [];
-        for ($i = 1; $i <= $main_char["id"]; $i++) {
+        for ($i = 1; $i <= $main_char['id']; $i++) {
             $random_room_id = rand(1, 10); 
             $room = $salles[$random_room_id - 1];
             array_push($donjon, $room);
-            switch ($room["event"]) {
+            switch ($room['event']) {
                 case 1:
                     // combat
                     break;
@@ -884,6 +884,6 @@ class DAO {
         }
     }
 
-    menu($personnages, $DAO);
+    menu($personnages, $salles,$DAO);
 
 ?>
