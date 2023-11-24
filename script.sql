@@ -77,3 +77,7 @@ CREATE TABLE piege (
     value INT,
     phrase VARCHAR(255)
 );
+
+INSERT INTO personnage (nom, pv, pa, pd,exp, niveau, evolution, inventaire_id) VALUES (remi,100,20,30,100,10,'',3)
+INSERT INTO personnage (nom, pv, pa, pd,exp, niveau, evolution, inventaire_id) VALUES (leon,100,20,30,100,10,'',2)
+INSERT INTO personnage (nom, pv, pa, pd,exp, niveau, evolution, inventaire_id) VALUES (raph,100,20,30,100,10,'',1)
